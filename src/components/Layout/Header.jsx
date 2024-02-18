@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from "../../styles/style";
 import { categoriesData, productData } from "../../static/data";
-import { AiOutlineSearch } from "react-icons/ai"
+import { AiOutlineHeart, AiOutlineSearch, AiOutlineShoppingCart } from "react-icons/ai"
 import {IoIosArrowDown, IoIosArrowForward} from "react-icons/io"
+import {CgProfile} from 'react-icons/cg'
 import {BiMenuAltLeft} from "react-icons/bi";
 import DropDown from "./DropDown.jsx"
+import Navbar from "./Navbar";
 
-const Header = () => {
+const Header = ({activeHeading}) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchData, setSearchData] = useState("");
   const [active,setActive] = useState(false);
@@ -77,7 +79,7 @@ const Header = () => {
         </div>
       </div>
     </div>
-    <div className={`${active ===true ? "shadow-sm fixed top-0 left-0 z-10" : null} transition hidden 800px:flex items-center justify-between w-full bg-[#561212] h-[70px]`}>
+    <div className={`${active ===true ? "shadow-sm fixed top-0 left-0 z-10" : null} transition hidden 800px:flex items-center justify-between w-full bg-[#2f34bd] h-[70px]`}>
       <div className={`${styles.section} relative ${styles.noramlFlex} justify-between` }>
         {/* Categories */}
         <div>
@@ -103,6 +105,43 @@ const Header = () => {
                 }
             </div>
         </div>
+        {/* Navigation Header */}
+         <div className={`${styles.noramlFlex}`}>
+            <Navbar active={activeHeading}/>
+          </div>
+          <div className='flex'>
+            <div className={`${styles.noramlFlex}`}>
+              <div className="relative cursor-pointer mr-[15px]">
+                <AiOutlineHeart
+                size={30}
+                color='rgb(255 255 255 /83% )'/>
+                <span className='absolute right-0 top-0 rounded-full bg-[#FA3E3E] w-4 h-4 top right p-0 m-0 text-white text-[12px] leading-tight text-center'>
+                  0
+                </span>
+              </div>
+            </div>
+
+            <div className={`${styles.noramlFlex}`}>
+              <div className="relative cursor-pointer mr-[15px]">
+                <AiOutlineShoppingCart
+                size={30}
+                color='rgb(255 255 255 /83% )'/>
+                <span className='absolute right-0 top-0 rounded-full bg-[#FA3E3E] w-4 h-4 top right p-0 m-0 text-white text-[12px] leading-tight text-center'>
+                  1
+                </span>
+              </div>
+            </div>
+
+            <div className={`${styles.noramlFlex}`}>
+              <div color="relative cursor-pointer mr-[15px]">
+                <Link to="/login">
+                <CgProfile
+                size={30}
+                color="rgb(255 255 255 /83% )"/>
+                </Link>
+              </div>
+            </div>
+          </div>
       </div>
       </div>
     </>
