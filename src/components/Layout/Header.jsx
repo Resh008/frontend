@@ -26,7 +26,7 @@ const Header = ({activeHeading}) => {
   }
 
   window.addEventListener("scroll",()=>{
-    if(window.screenY > 70){
+    if(window.scrollY > 70){
         setActive(true);
     } else {
         setActive(false);
@@ -83,6 +83,7 @@ const Header = ({activeHeading}) => {
       <div className={`${styles.section} relative ${styles.noramlFlex} justify-between` }>
         {/* Categories */}
         <div>
+          <div onClick={()=> setDropDown(!dropdown)}>
             <div className="relative h-[60px] mt-[10px] w-[270px] hidden 1000px:block">
                 <BiMenuAltLeft size={30} className='absolute top-3 left-2'/>
                 <button
@@ -104,6 +105,8 @@ const Header = ({activeHeading}) => {
                     ) : null
                 }
             </div>
+            </div>
+
         </div>
         {/* Navigation Header */}
          <div className={`${styles.noramlFlex}`}>

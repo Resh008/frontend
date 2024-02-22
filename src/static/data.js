@@ -271,7 +271,7 @@ export const navItems = [
       image_Url: [
         {
           public_id: "test",
-          url: "https://www.istorebangladesh.com/images/thumbs/0000286_macbook-pro-m1_550.png",
+          url: "https://www.apple.com/newsroom/images/product/mac/standard/Apple-MacBook-Pro-M2-Pro-and-M2-Max-hero-230117_Full-Bleed-Image.jpg.large.jpg",
         },
         {
           public_id: "test",
@@ -331,11 +331,11 @@ export const navItems = [
       image_Url: [
         {
           public_id: "test",
-          url: "https://www.istorebangladesh.com/images/thumbs/0000286_macbook-pro-m1_550.png",
+          url: "https://cdn.wccftech.com/wp-content/uploads/2023/06/MacBook-Pro-1-e1687809025970.jpg",
         },
         {
           public_id: "test",
-          url: "https://www.istorebangladesh.com/images/thumbs/0000286_macbook-pro-m1_550.png",
+          url: "https://cdn.wccftech.com/wp-content/uploads/2023/06/MacBook-Pro-1-e1687809025970.jpg",
         },
       ],
       shop: {
