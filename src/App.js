@@ -11,7 +11,11 @@ import { loadUser } from "./redux/actions/user";
 
 const App = () => {
   useEffect(() => {
-    Store.dispatch(loadUser());
+    try {
+      Store.dispatch(loadUser());
+    } catch (error) {
+      console.error('Error in App component:', error);
+    }
   }, []);
 
 
@@ -42,6 +46,8 @@ transition= {Bounce}
 />
     </BrowserRouter>
   )
+
+  
 }
 
 export default App
