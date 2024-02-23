@@ -11,6 +11,7 @@ import Navbar from "./Navbar";
 import { useSelector } from "react-redux"
 import { backend_url } from '../../server.js';
 import Cart from "../cart/Cart"
+import Whitelist from "../Whitelist/Whitelist"
 
 
 const Header = ({ activeHeading }) => {
@@ -124,7 +125,9 @@ const Header = ({ activeHeading }) => {
             </div>
             <div className='flex'>
               <div className={`${styles.noramlFlex}`}>
-                <div className="relative cursor-pointer mr-[15px]">
+                <div className="relative cursor-pointer mr-[15px]"
+                onClick={()=>setopenWitelist(true)}
+                >
                   <AiOutlineHeart
                     size={30}
                     color='rgb(255 255 255 /83% )' />
@@ -164,6 +167,13 @@ const Header = ({ activeHeading }) => {
               {
                 openCart ? (
                   <Cart setOpenCart={setOpenCart}/>
+                ) : null
+              }
+
+              {/* Whitelist Popup */}
+              {
+                openWitelist ? (
+                  <Whitelist setopenWitelist={setopenWitelist}/>
                 ) : null
               }
             </div>
