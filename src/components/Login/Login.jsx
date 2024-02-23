@@ -14,16 +14,24 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post(`${server}/user/login-user`, {
-      email,
-      password,
-    }, { withCredentials: true }).then((res) => {
-      toast.success("Welcome to Almadi!");
-      navigate("/");
-    }).catch((err) => {
-      toast.error(err.response.data.message)
-    })
-  }
+    await axios
+      .post(
+        `${server}/user/login-user`,
+        {
+          email,
+          password,
+        },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        toast.success("Welcome to Almadi!");
+        navigate("/");
+        window.location.reload(true);
+      })
+      .catch((err) => {
+        toast.error(err.response.data.message);
+      });
+  };
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -110,7 +118,8 @@ const Login = () => {
               </div>
             </div>
             <div>
-              <button type="submit"
+              <button
+                type="submit"
                 className="group relative w-full h-[40px] flex justify-center py-2 px-4 border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
               >
                 Login

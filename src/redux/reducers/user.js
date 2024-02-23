@@ -21,7 +21,5 @@ export const userReducer = createReducer(initialState, (builder) => {
       state.loading = false;
       state.error = action.payload;
       state.isAuthenticated = false;
-      state.user = null; // Reset user in case of failure
-      console.log("Error user:", action.payload);
     });
 });

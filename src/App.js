@@ -8,8 +8,10 @@ import 'react-toastify/dist/ReactToastify.css'
 import axios from 'axios';
 import Store from "./redux/store";
 import { loadUser } from "./redux/actions/user";
+import { useSelector } from 'react-redux';
 
 const App = () => {
+  const { loading } = useSelector((state) => state.user);
   useEffect(() => {
     try {
       Store.dispatch(loadUser());
@@ -20,6 +22,11 @@ const App = () => {
 
 
   return (
+<>
+{
+  loading  ? (
+    null
+  ) : (
     <BrowserRouter>
     <Routes>
     <Route path='/' element={<HomePage/>}/>
@@ -45,6 +52,9 @@ theme="light"
 transition= {Bounce}
 />
     </BrowserRouter>
+  )
+}
+</>
   )
 
   
