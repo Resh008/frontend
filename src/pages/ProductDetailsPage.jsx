@@ -10,6 +10,7 @@ const ProductDetailsPage = () => {
     const [data,setData] = useState(null);
     const productName = name.replace(/-/g," ");
 
+
     useEffect(() => {
         const data = productData.find((i)=> i.name === productName);
         setData(data);
@@ -19,7 +20,7 @@ const ProductDetailsPage = () => {
   return (
     <div>
         <Header/>
-        <ProductDetails/>
+        <ProductDetails data={data}/>
         <Footer/>
     </div>
   )

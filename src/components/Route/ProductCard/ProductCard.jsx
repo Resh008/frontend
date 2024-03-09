@@ -107,7 +107,7 @@ const ProductCard = ({ data }) => {
                                     <ProductDetailsCard setOpen={setOpen} data={data}/>
                                 ) : null
                             }
-                    </div>
+                    </div>  
             </div>
         </>
     )
