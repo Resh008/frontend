@@ -507,7 +507,7 @@ export const navItems = [
         ratings: 4.2,
       },
       price: 300,
-      discount_price: 239,
+      discount_price: 199,
       rating: 4.5,
       reviews: [
         {
@@ -597,14 +597,7 @@ export const navItems = [
       link: "/about"
     },
     {
-      name: "Careers",
-      link: "/carrers"
-    },
-    {
       name: "Store Locations",
-    },
-    {
-      name: "Our Blog",
     },
     {
       name: "Reviews",

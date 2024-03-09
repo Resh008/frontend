@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from '../../styles/style';
 import { AiFillHeart, AiOutlineHeart, AiOutlineMessage, AiOutlineShoppingCart } from 'react-icons/ai';
 
@@ -146,7 +146,7 @@ const ProductDetails = ({ data }) => {
 };
 
 const ProductDetailsInfo = ({ data }) => {
-const [active, setActive] = useState(1);
+  const [active, setActive] = useState(1);
   return (
     <div className=' bg-[#f5f6fb] px-3 800px:px-10 py-2 rounded'>
       <div className="full flex justify-between border-b pt-10 pb-2">
@@ -228,30 +228,41 @@ const [active, setActive] = useState(1);
               <div className="flex items-center">
                 <img src={data.shop.shop_avatar.url} alt=""
                   className='w-[50px] h-[50px] rounded-full' />
-              
-              <div className='pl-3'>
-                <h3 className={`${styles.shop_name}`}>
-                  {data.shop.name}
-                </h3>
-                <h5 className='pb-3 text-[15px]'>
-                  ({data.shop.ratings}) Ratings
+
+                <div className='pl-3'>
+                  <h3 className={`${styles.shop_name}`}>
+                    {data.shop.name}
+                  </h3>
+                  <h5 className='pb-2 text-[15px]'>
+                    ({data.shop.ratings}) Ratings
+                  </h5>
+                </div>
+              </div>
+              <p className='pt-2'>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde molestiae officiis soluta sapiente fugiat! Est voluptatum commodi consectetur. Nostrum accusantium numquam beatae quia eum expedita, aspernatur alias esse nesciunt laboriosam.
+              </p>
+            </div>
+            <div className="w-full 800px:w-[50%] mt-5 800px:mt-0 800px:flex flex-col items-end">
+              <div className="text-left">
+                <h5 className="font-[600]">
+                  Joined on <span className='font-[500]'>4rth March,2024</span>
                 </h5>
+                <h5 className="font-[600]">
+                  Total products <span className='font-[500]'>1,223</span>
+                </h5>
+                <h5 className="font-[600]">
+                  Total Reviews <span className='font-[500]'>32</span>
+                </h5>
+                <Link to ="/">
+                  <div
+                    className={`${styles.button} !rounded-[4px] !h-[39.5px] mt-3`}
+                  >
+                    <h4 className='text-white'>Visit Shop</h4>
+                  </div>
+
+                </Link>
               </div>
             </div>
-            <p className='pt-2'>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde molestiae officiis soluta sapiente fugiat! Est voluptatum commodi consectetur. Nostrum accusantium numquam beatae quia eum expedita, aspernatur alias esse nesciunt laboriosam.
-                  </p>
-          </div>
-          <div className="w-full 800px:w-[50%] mt-5 800px:mt-0 800px:flex flex-col items-end">
-            <div className="text-left">
-              <h5 className="font-[600]">
-                Joined on <span className='font-[500]'>4rth March,2024</span>
-              </h5>
-              <h5 className="font-[600]">
-                Joined on <span className='font-[500]'>4rth March,2024</span>
-              </h5>
-            </div>
-          </div>
           </div>
         )
       }

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import "./App.css"
 import {BroswerRouter, Routes,Route, BrowserRouter} from 'react-router-dom';
-import {LoginPage,SignUpPage,ActivationPage, HomePage,ProductsPage,BestSellingPage,EventsPage,FAQPage,ProductDetailsPage} from './Routes.js';
+import {LoginPage,SignUpPage,ActivationPage, HomePage,ProductsPage,BestSellingPage,EventsPage,FAQPage,ProductDetailsPage,ProfilePage} from './Routes.js';
 import { ToastContainer, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 // import { server } from './server.js';
@@ -38,6 +38,7 @@ const App = () => {
       <Route path="/best-selling" element={<BestSellingPage/>}/>
       <Route path="/events" element={<EventsPage/>}/>
       <Route path="/faq" element={<FAQPage/>}/>
+      <Route path="/profile" element={<ProfilePage/>}/>
     </Routes>
     <ToastContainer
 position="top-right"
