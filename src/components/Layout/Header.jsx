@@ -48,9 +48,9 @@ const Header = ({ activeHeading }) => {
         <>
         <div className={`${styles.section}`}>
           <div className="hidden 800px:h-[50px] 800px:my-[20px] 800px:flex items-center justify-between">
-            <div>
+            <div className='w-[100px] h-full pb-1 '>
               <Link to="/">
-                <img src="https://media.discordapp.net/attachments/749319878003130380/1201804872081477662/BlameJohn.png?ex=65d46181&is=65c1ec81&hm=7b41677f6c13be62032c83692613ee49a9f967e7a2c4575168be05537a022d59&=&format=webp&quality=lossless&width=160&height=160" alt='' />
+                <img src="https://logolook.net/wp-content/uploads/2023/10/Daraz-Logo.png" alt='' />
               </Link>
             </div>
   
