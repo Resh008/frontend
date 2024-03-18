@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { backend_url } from "../../server";
 import { useSelector } from "react-redux";
-import { AiOutlineArrowRight, AiOutlineCamera } from "react-icons/ai";
+import { AiOutlineArrowRight, AiOutlineCamera, AiOutlineDelete } from "react-icons/ai";
 import Loading from "../Events/Loading";
 import styles from "../../styles/style";
 import { MdAddAPhoto, MdOutlineTrackChanges } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { DataGrid } from '@mui/x-data-grid';
 import Button from '@mui/material/Button'
+import { TiDelete, TiDeleteOutline } from "react-icons/ti";
 
 const ProfileContent = ({ active }) => {
   const { user } = useSelector((state) => state.user);
@@ -137,6 +138,14 @@ const ProfileContent = ({ active }) => {
         active === 6 && (
           <div>
             <PaymentMethod />
+          </div>
+        )
+      }
+      {/* Address Page */}
+      {
+        active === 7 && (
+          <div>
+            <Address />
           </div>
         )
       }
@@ -319,11 +328,61 @@ const TrackOrder = () => {
 const PaymentMethod = () =>{
   
   return (
-    <div>Coming Soon!
-    </div>
+      <div className="w-full px-5">
+        <div className="flex w-full items-center justify-between">
+          <h1 className="text-[25px] font-[600] text-[#262626] pb-2">Payment Methods</h1>
+          <div className={`${styles.button} !rounded-md`}>
+            <span className="text-[#FFF]">Add New</span>
+          </div>
+        </div>
+        <br />
+        <div className="w-full bg-white h-[70px] rounded-[4px] flex items-center px-3 shadow justify-between pr-10">
+          <div className="flex items-center">
+            <img className="w-[16%]"
+            src="https://cdn.iconscout.com/icon/free/png-512/free-visa-3-226460.png?f=webp&w=256" alt="" />
+            <h5 className="pl-5 font-[600]">Resh Bikram Bhattarai</h5>
+          </div>
+          <div className="pl-8 flex items-center">
+            <h6>1234 **** *** ****</h6>
+            <h5 className="pl-6">08/2025</h5>
+          </div>
+          <div className="min-w-[10%] flex items-center justify-between pl-8 cursor-pointer">
+            <TiDeleteOutline  size={25} className="curosor-pointer" />
+          </div>
+
+        </div>
+      </div>
   )
 }
 
+const Address = () => {
+  return(
+    <div className="w-full px-5">
+    <div className="flex w-full items-center justify-between">
+      <h1 className="text-[25px] font-[600] text-[#262626] pb-2">My Address</h1>
+      <div className={`${styles.button} !rounded-md`}>
+        <span className="text-[#FFF]">Add New</span>
+      </div>
+    </div>
+    <br />
+    <div className="w-full bg-white h-[70px] rounded-[4px] flex items-center px-3 shadow justify-between pr-10">
+      <div className="flex items-center">
+        <h5 className="pl-5 font-[600]">Default Address</h5>
+      </div>
+      <div className="pl-8 flex items-center">
+        <h6>Civil Homes, Tinthana, Nepal</h6>
+      </div>
+      <div className="pl-8 flex items-center">
+        <h6>977-9860130046</h6>
+      </div>
+      <div className="min-w-[10%] flex items-center justify-between pl-8 cursor-pointer">
+        <TiDeleteOutline  size={25} className="curosor-pointer" />
+      </div>
+
+    </div>
+  </div>
+  )
+}
 
 
 export default ProfileContent;
