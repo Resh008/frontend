@@ -47,7 +47,7 @@ const Header = ({ activeHeading }) => {
   return (
         <>
         <div className={`${styles.section}`}>
-          <div className="hidden 800px:h-[50px] 800px:my-[20px] 800px:flex items-center justify-between">
+          <div className=" h-[50px] my-[20px] flex items-center justify-between">
             <div className='w-[100px] h-full pb-1 '>
               <Link to="/">
                 <img src="https://logolook.net/wp-content/uploads/2023/10/Daraz-Logo.png" alt='' />
@@ -90,7 +90,7 @@ const Header = ({ activeHeading }) => {
             </div>
           </div>
         </div>
-        <div className={`${active === true ? "shadow-sm fixed top-0 left-0 z-10" : null} transition hidden 800px:flex items-center justify-between w-full bg-[#2f34bd] h-[70px]`}>
+        <div className={`${active === true ? "shadow-sm fixed top-0 left-0 z-10" : null} transition flex items-center justify-between w-full bg-[#2f34bd] h-[70px]`}>
           <div className={`${styles.section} relative ${styles.noramlFlex} justify-between`}>
             {/* Categories */}
             <div>
