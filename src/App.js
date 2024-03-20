@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import "./App.css"
 import { Routes,Route, BrowserRouter} from 'react-router-dom';
-import {LoginPage,SignUpPage,ActivationPage, HomePage,ProductsPage,BestSellingPage,EventsPage,FAQPage,ProductDetailsPage,ProfilePage} from './Routes.js';
+import {LoginPage,SignUpPage,ActivationPage, HomePage,ProductsPage,BestSellingPage,EventsPage,FAQPage,ProductDetailsPage,ProfilePage,ShopCreatePage} from './Routes.js';
 import { ToastContainer, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 // import { server } from './server.js';
@@ -44,6 +44,7 @@ const App = () => {
           <ProfilePage/>
         </ProtectedRoute>
       }/>
+    <Route path="/shop-create" element={<ShopCreatePage/>}/>
     </Routes>
     <ToastContainer
 position="top-right"

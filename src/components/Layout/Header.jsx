@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from "../../styles/style";
 import { categoriesData, productData } from "../../static/data";
-import { AiOutlineHeart, AiOutlineSearch, AiOutlineShoppingCart } from "react-icons/ai"
+import { AiOutlineHeart, AiOutlineProfile, AiOutlineSearch, AiOutlineSetting, AiOutlineShoppingCart, AiOutlineUser } from "react-icons/ai"
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io"
 import { CgProfile } from 'react-icons/cg'
 import { BiMenuAltLeft } from "react-icons/bi";
@@ -14,6 +14,7 @@ import Cart from "../cart/Cart"
 import Whitelist from "../Whitelist/Whitelist"
 import { RxCross1 } from 'react-icons/rx';
 import shadows from '@mui/material/styles/shadows.js';
+import { HiOutlineLogout } from 'react-icons/hi';
 
 
 const Header = ({ activeHeading }) => {
@@ -84,7 +85,7 @@ const Header = ({ activeHeading }) => {
             }
           </div>
           <div className={`${styles.button}`}>
-            <Link to="/seller">
+            <Link to="/shop-create">
               <h1 className='text-[#fff] flex items-center'>
                 Become a seller <IoIosArrowForward className="ml-1" />
               </h1>
@@ -247,7 +248,7 @@ const Header = ({ activeHeading }) => {
                 </div>
                 <Navbar active={activeHeading} />
                 <div className={`${styles.button} ml-4 !rounded-[4px]`}>
-                  <Link to="/seller">
+                  <Link to="/shop-create">
                     <h1 className='text-[#fff] flex items-center'>
                       Become a seller <IoIosArrowForward className="ml-1" />
                     </h1>
@@ -262,6 +263,21 @@ const Header = ({ activeHeading }) => {
                       <>
                         <Link to="/login">Login /</Link>
                         <Link to="/sign-up">Sign-up</Link>
+                      </> 
+                    )
+                  }
+                  {
+                    isAuthenticated && (
+                      <> 
+                      <div>
+                      <Link to="/profile">
+                      <img src={`${backend_url}${user.avatar.url}`} className='w-[35px] h-[35px] rounded-full outline outline-green-500' alt="" />
+                       </Link>
+                      </div>
+                      <Link to = "/profile" className='flex items-center justify-between '> Manage Profile / </Link>
+                        
+                        <Link to = "/logout" className='flex items-center justify-between'><HiOutlineLogout size={20}/> Logout </Link>
+
                       </>
                     )
                   }
