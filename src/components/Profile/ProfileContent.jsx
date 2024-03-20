@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { backend_url } from "../../server";
 import { useSelector } from "react-redux";
-import { AiOutlineArrowRight, AiOutlineCamera, AiOutlineDelete } from "react-icons/ai";
+import { AiOutlineArrowRight } from "react-icons/ai";
 import Loading from "../Events/Loading";
 import styles from "../../styles/style";
 import { MdAddAPhoto, MdOutlineTrackChanges } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { DataGrid } from '@mui/x-data-grid';
 import Button from '@mui/material/Button'
-import { TiDelete, TiDeleteOutline } from "react-icons/ti";
+import { TiDeleteOutline } from "react-icons/ti";
 
 const ProfileContent = ({ active }) => {
   const { user } = useSelector((state) => state.user);
@@ -48,7 +48,7 @@ const ProfileContent = ({ active }) => {
           <div className="w-full px-5">
             <form onSubmit={handleSubmit} aria-required={true}>
               {/* First row*/}
-              <div className="w-full flex pb-3">
+              <div className="w-full 800px:flex block pb-3">
                 <div className="w-[50%]">
                   <label className="block pb-2">Full Name</label>
                   <input type="text" className={`${styles.input} !w-[95%]`}
@@ -65,7 +65,7 @@ const ProfileContent = ({ active }) => {
                 </div>
               </div>
               {/* Second row*/}
-              <div className="w-full flex pb-3">
+              <div className="w-full 800px:flex block pb-3">
                 <div className="w-[50%]">
                   <label className="block pb-2">Phone Number</label>
                   <input type="number" className={`${styles.input} !w-[95%]`}
@@ -82,7 +82,7 @@ const ProfileContent = ({ active }) => {
                 </div>
               </div>
               {/* Third row*/}
-              <div className="w-full flex pb-3">
+              <div className="w-full 800px:flex block pb-3">
                 <div className="w-[50%]">
                   <label className="block pb-2">Address 1</label>
                   <input type="address" className={`${styles.input} !w-[95%]`}
@@ -98,11 +98,13 @@ const ProfileContent = ({ active }) => {
                     onChange={(e) => setAddress2(e.target.value)} />
                 </div>
               </div>
+              <div className="flex items-center justify-between">
               <input
-                className={`w-[256px] h-[40px] border border-[#3a24db] text-center text-[#3a24db] rounded-[3px] mt-8 cursor-pointer`}
+                className={`w-[256px] h-[40px] border border-[#3a24db] text-center text-[#3a24db] rounded-[3px] mt-8 cursor-pointer flex justify-center`}
                 required
                 value="Update"
                 type="submit" />
+                </div>
             </form>
           </div>
         </>

@@ -117,13 +117,23 @@ const Login = () => {
                 </a>
               </div>
             </div>
-            <div>
+            <div className="flex items-center justify-between">
               <button
                 type="submit"
                 className="group relative w-full h-[40px] flex justify-center py-2 px-4 border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
               >
                 Login
               </button>
+              <span className="m-3">OR</span>
+              <Link to = "/" className="group relative w-full h-[40px] flex justify-center py-2 border-transparent text-sm font-medium rounded-md text-[#000] stroke-blue-400 hover:bg-blue-200 hover:text-[#1a1c4d]">
+              <button
+                type="submit"
+                className=" "
+              >
+                Guest Mode
+              </button>
+              </Link>
+
             </div>
             <div className={`${styles.noramlFlex} w-full`}>
               <h4>Don't have any account?</h4>
