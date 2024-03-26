@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import "./App.css"
 import { Routes,Route, BrowserRouter} from 'react-router-dom';
-import {LoginPage,SignUpPage,ActivationPage, HomePage,ProductsPage,BestSellingPage,EventsPage,FAQPage,ProductDetailsPage,ProfilePage,ShopCreatePage} from './Routes.js';
+import {LoginPage,SignUpPage,ActivationPage, HomePage,ProductsPage,BestSellingPage,EventsPage,FAQPage,ProductDetailsPage,ProfilePage,ShopCreatePage, SellerActivationPage} from './Routes.js';
 import { ToastContainer, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
-// import { server } from './server.js';
-// import axios from 'axios';
+//import { server } from './server.js';
+//import axios from 'axios';
 import Store from "./redux/store";
 import { loadUser } from "./redux/actions/user";
 import { useSelector } from 'react-redux';
@@ -34,6 +34,7 @@ const App = () => {
       <Route path='/login' element={<LoginPage/>}/>
       <Route path='/sign-up' element={<SignUpPage/>}/>
       <Route path='/activation/:activation_token' element={<ActivationPage/>}/>
+      <Route path='/seller/activation/:activation_token' element={<SellerActivationPage/>}/>
       <Route path="/products" element={<ProductsPage/>}/>
       <Route path="/products/:name" element={<ProductDetailsPage/>}/>
       <Route path="/best-selling" element={<BestSellingPage/>}/>

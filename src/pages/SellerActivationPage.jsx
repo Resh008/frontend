@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { server } from "../server";
 
-const ActivationPage = () => {
+const SellerActivationPage = () => {
     const { activation_token } = useParams();
     const [error, setError] = useState(false);
 
@@ -11,12 +11,14 @@ const ActivationPage = () => {
         if (activation_token) {
             const sendRequest = async () => {
                 await axios
-                .post(`${server}/user/activation`, {
-                        activation_token,
-                    })
+                .post(`${server}/shop/activation/${activation_token}`) // Make sure the URL matches the backend route
                 .then((res)=>{
                     setError(true);
                 })
+                .catch((error) => {
+                    setError(true); // Handle errors
+                    console.log(error); // Log any errors for debugging
+                });
             };
             sendRequest();
         }
@@ -41,4 +43,4 @@ const ActivationPage = () => {
     );
 }
 
-export default ActivationPage;
+export default SellerActivationPage;

@@ -172,8 +172,17 @@ const Signup = () => {
                 type="submit"
                 className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
               >
-                Submit
+                Register
               </button>
+              <span className="flex items-center justify-center pt-1">OR</span>
+              <Link to = "/shop-create" className="group relative w-full h-[40px] flex justify-center py-2 border-transparent text-sm font-medium rounded-md text-[#5b5b5b] stroke-blue-400 hover:bg-blue-200 hover:text-[#1a1c4d]">
+              <button
+                type="submit"
+                className=" "
+              >
+                Become Seller
+              </button>
+              </Link>
             </div>
             <div className={`${styles.noramlFlex} w-full`}>
               <h4>Already have an account?</h4>
