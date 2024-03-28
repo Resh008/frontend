@@ -241,7 +241,7 @@ const ShopCreate = () => {
                 type="submit"
                 className="group relative w-full h-[40px] flex justify-center py-2 px-4 border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
               >
-                Login
+                Register
               </button>
               {/* <span className="m-3">OR</span>
               <Link to = "/" className="group relative w-full h-[40px] flex justify-center py-2 border-transparent text-sm font-medium rounded-md text-[#000] stroke-blue-400 hover:bg-blue-200 hover:text-[#1a1c4d]">
@@ -255,8 +255,8 @@ const ShopCreate = () => {
 
             </div>
             <div className={`${styles.noramlFlex} w-full`}>
-              <h4>Already have an account? </h4>
-              <Link to="/login" className="text-blue-600 pl-2">
+              <h4>Already have an shop account? </h4>
+              <Link to="/shop-login" className="text-blue-600 pl-2">
                 Login
               </Link>
             </div>
