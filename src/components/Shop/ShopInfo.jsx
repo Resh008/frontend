@@ -1,15 +1,19 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { backend_url } from '../../server'
+import { backend_url, server } from '../../server'
 import styles from '../../styles/style'
+import axios from 'axios'
 
 const ShopInfo = ({ isOwner }) => {
     const { seller } = useSelector((state) => state.seller)
-    const logOutHandler = () => {
-        
-    }
 
-    // console.log(seller.avatar)
+    const logOutHandler = async () => {
+        axios.get(`${server}/shop/logout`,
+            { withCredentials: true 
+            });
+        window.location.reload();
+    };
+
 
     return (
         <div>
@@ -36,14 +40,14 @@ const ShopInfo = ({ isOwner }) => {
                 <h5 className='font-[600]'>Total Products</h5>
                 <h4 className='text-[#000000a6]'>10</h4>
             </div>
-            
+
             <div className="p-3">
                 <h5 className='font-[600]'>Your Shop Ratings</h5>
                 <h4 className='text-[#000000a6]'>9/10</h4>
             </div>
             <div className="p-3">
                 <h5 className='font-[600]'>You joined us on</h5>
-                <h4 className='text-[#000000a6]'>{seller.createdAt.slice(0,10)}</h4>
+                <h4 className='text-[#000000a6]'>{seller.createdAt.slice(0, 10)}</h4>
             </div>
             {
                 isOwner && (
@@ -56,7 +60,7 @@ const ShopInfo = ({ isOwner }) => {
                         </div>
                     </div>
                 )
-            } 
+            }
         </div>
     )
 }
