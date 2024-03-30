@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { categoriesData } from "../../static/data";
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import { createProduct } from "../../redux/actions/product";
 import { toast } from "react-toastify"
+import { createevent } from "../../redux/actions/event";
 
 const CreateEvent = () => {
   const { seller } = useSelector((state) => state.seller);
-  const { success, error } = useSelector((state) => state.products);
+  const { success, error } = useSelector((state) => state.event);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -17,7 +17,7 @@ const CreateEvent = () => {
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [tags, setTags] = useState("");
-  const [originalPrice, setOriginalPrice] = useState();
+  const [orginalPrice, setOrginalPrice] = useState();
   const [discountPrice, setDiscountPrice] = useState();
   const [stock, setStock] = useState();
   const[startDate,setStartDate] =  useState(null);
@@ -25,16 +25,27 @@ const CreateEvent = () => {
 
   const handleStartDateChange = (e) => {
     const startDate = new Date(e.target.value);
-    const minEndDate = new Date(startDate.getTime() + 3 * 24 * 60 * 60 * 1000)
+    const minEndDate = new Date(startDate.getTime() + 3 * 24 * 60 * 60 * 1000);
     setStartDate(startDate);
     setEndDate(null);
-    document.getElementById("end-date").min = minEndDate.toISOString.slice(0,10)
-  }
-
+    document.getElementById("end-date").min = minEndDate.toISOString().slice(
+      0,
+      10
+    );
+  };
+  
   const handleEndDateChange = (e) => {
-    const endDate = new Date(e.target.value); 
+    const endDate = new Date(e.target.value);
     setEndDate(endDate);
-  }
+  };
+
+  const today = new Date().toISOString().slice(0, 10);
+
+  const minEndDate = startDate
+    ? new Date(startDate.getTime() + 3 * 24 * 60 * 60 * 1000)
+    .toISOString()
+    .slice(0, 10)
+    : "";
 
   useEffect(() => {
     if (error) {
@@ -42,9 +53,9 @@ const CreateEvent = () => {
       console.log(error)
     }
     if (success) {
-      toast.success(name + " Product created")
-      navigate("/dashboard");
+      navigate("/dashboard-create-event");
       window.location.reload();
+      toast.success(name + "Event Created")
     }
   }, [dispatch, error, success])
 
@@ -55,31 +66,29 @@ const CreateEvent = () => {
     const newForm = new FormData();
 
     images.forEach((image) => {
-      newForm.set("images", image);
+      newForm.append("images", image); // Append each image individually
     });
     newForm.append("name", name);
     newForm.append("description", description);
     newForm.append("category", category);
     newForm.append("tags", tags);
-    newForm.append("originalPrice", originalPrice);
+    newForm.append("orginalPrice", orginalPrice);
     newForm.append("discountPrice", discountPrice);
     newForm.append("stock", stock);
     newForm.append("shopId", seller._id);
+    newForm.append("startDate",startDate?.toISOString());
+    newForm.append("Finish_Date",endDate?.toISOString());
     dispatch(
-      createProduct(newForm)
+      createevent(newForm)
     );
   };
 
   const handleImageChange = (e) => {
     e.preventDefault();
-
+  
     let files = Array.from(e.target.files);
     setImages((prevImages) => [...prevImages, ...files]);
   };
-
-  const today = new Date().toISOString().slice(0,10);
-
-  const minEndDate = startDate ? new Date(startDate.getTime() + 3 * 24 * 60 * 1000).toISOString().slice(0,10): today;
 
   return (
     <div className="w-[90%] 800px:w-[50%] bg-white shadow h-[80vh] rounded-[4px] p-3 overflow-y-scroll ">
@@ -162,8 +171,8 @@ const CreateEvent = () => {
           <input
             type="number"
             name="originalPrice"
-            value={originalPrice}
-            onChange={(e) => setOriginalPrice(e.target.value)}
+            value={orginalPrice}
+            onChange={(e) => setOrginalPrice(e.target.value)}
             className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             placeholder="Price of Product"
           />
@@ -210,10 +219,28 @@ const CreateEvent = () => {
           <input
             type="date"
             name="stock"
-            id="start-date"
+            id="startDate"
             value={startDate ? startDate.toISOString().slice(0,10):""}
             onChange={handleStartDateChange}
             min={today}
+            className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            placeholder="Enter stock available"
+          />
+        </div>
+
+        <br />
+
+        <div>
+          <label className="pb-2">
+            Event End Date <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="date"
+            name="stock"
+            id="end-date"
+            value={endDate ? endDate.toISOString().slice(0,10):""}
+            onChange={handleEndDateChange}
+            min={minEndDate}
             className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             placeholder="Enter stock available"
           />

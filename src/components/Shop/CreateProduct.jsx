@@ -33,20 +33,19 @@ const CreateProduct = () => {
     }
   }, [dispatch, error, success])
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const newForm = new FormData();
 
     images.forEach((image) => {
-      newForm.set("images", image);
+      newForm.append("images", image); // Append each image individually
     });
     newForm.append("name", name);
     newForm.append("description", description);
     newForm.append("category", category);
     newForm.append("tags", tags);
-    newForm.append("originalPrice", originalPrice);
+    newForm.append("orginalPrice", originalPrice);
     newForm.append("discountPrice", discountPrice);
     newForm.append("stock", stock);
     newForm.append("shopId", seller._id);
@@ -54,10 +53,10 @@ const CreateProduct = () => {
       createProduct(newForm)
     );
   };
-
+  
   const handleImageChange = (e) => {
     e.preventDefault();
-
+  
     let files = Array.from(e.target.files);
     setImages((prevImages) => [...prevImages, ...files]);
   };
