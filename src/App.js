@@ -34,11 +34,13 @@ import { useSelector } from "react-redux";
 import ProtectedRoute from "./Routes/ProtectedRoute.js";
 import { ShopHomePage } from "./ShopRoutes.js";
 import SellerProtectedRoute from "./Routes/SellerProtectedRoute.js";
+import { getAllProducts } from "./redux/actions/product.js";
 
 const App = () => {
   useEffect(() => {
     Store.dispatch(loadUser());
     Store.dispatch(loadSeller());
+    Store.dispatch(getAllProducts());
   }, []);
 
   return (
