@@ -53,7 +53,7 @@ export const productReducer = createReducer(initialState, (builder) => {
     })
 
     
-    //Delete Product
+    //Get all Product
     .addCase('getAllProductsRequest', (state) => {
       state.isLoading = true;
     })

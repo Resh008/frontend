@@ -23,6 +23,7 @@ import {
   ShopCreateEvents,
   ShopAllEvents,
   ShopAllCoupons,
+  ShopPreviewPage,
 } from "./Routes/ShopRoutes";
 import { ToastContainer, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -80,6 +81,7 @@ const App = () => {
             </SellerProtectedRoute>
           }
         />
+        <Route path="/shop/preview/:id" element={<ShopPreviewPage />} />
         <Route
           path="/dashboard"
           element={
