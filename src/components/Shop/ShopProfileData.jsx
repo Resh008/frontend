@@ -57,6 +57,13 @@ const ShopProfileData = ({ isOwner }) => {
           </div>
         </div>
         <div>
+        <div>
+              <Link to="/">
+                <div className={`${styles.button} !rounded-[4px] h-[42px] bg-green-600`}>
+                  <span className="text-[#fff]">Go Home</span>
+                </div>
+              </Link>
+            </div>
           {isOwner && (
             <div>
               <Link to="/dashboard">

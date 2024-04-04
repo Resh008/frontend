@@ -5,6 +5,7 @@ import { AiFillHeart, AiOutlineHeart, AiOutlineMessage, AiOutlineShoppingCart } 
 import { backend_url } from '../../server';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllProductsShop } from '../../redux/actions/product';
+import Magnifier from "react-magnifier";
 
 const ProductDetails = ({ data }) => {
   const [count, setCount] = useState(1);
@@ -14,6 +15,7 @@ const ProductDetails = ({ data }) => {
   const { products } = useSelector((state) => state.products);
   const { id } = useParams();
   const dispatch = useDispatch();
+
 
   useEffect(() => {
     dispatch(getAllProductsShop(data && data.shop._id));
@@ -41,11 +43,18 @@ const ProductDetails = ({ data }) => {
           <div className="w-full py-5">
             <div className="block w-full 800px:flex">
               <div className="w-full 800px:w-[50%]">
-                <img
+                {/* <img
                   src={`${backend_url}${data && data.images[select]}`}
                   alt=""
                   className="w-[80%]"
-                />
+                /> */}
+                <div className='overflow-hidden !mr-3 !mt-3 mb-3'>
+                  <Magnifier
+                    src={`${backend_url}${data && data.images[select]}`}
+                    alt="image"
+                  />
+                </div>
+
                 <div className="w-full flex">
                   {data &&
                     data.images.map((i, index) => (
@@ -237,6 +246,7 @@ const ProductDetailsInfo = ({ data, products }) => {
         active === 3 && (
           <div className="w-full block 800px:flex p-5">
             <div className="w-full 800px:w-[50%]">
+              <Link to = {`/shop/preview/${data.shop._id}`}>
               <div className="flex items-center">
                 <img
                   src={`${backend_url}${data?.shop?.avatar.url}`}
@@ -252,6 +262,7 @@ const ProductDetailsInfo = ({ data, products }) => {
                   </h5>
                 </div>
               </div>
+              </Link>
               <p className='pt-2'>
                 {data.shop.description}
               </p>

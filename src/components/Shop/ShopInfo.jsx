@@ -102,6 +102,8 @@ const ShopInfo = ({ isOwner }) => {
           >
             <span className="text-white">Log Out</span>
           </div>
+          
+          
         </div>
       )}
     </div>

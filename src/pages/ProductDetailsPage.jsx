@@ -16,10 +16,12 @@ const ProductDetailsPage = () => {
 
 
     useEffect(() => {
-        const data = allProducts.find((i)=> i.name === productName);
-        setData(data);
-    }, [])
-    
+      if (allProducts) {
+          const product = allProducts.find((item) => item.name === productName);
+          setData(product);
+      }
+  }, [allProducts, productName]);
+  
 
   return (
     <div>

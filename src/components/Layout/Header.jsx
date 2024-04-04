@@ -19,6 +19,8 @@ import { HiOutlineLogout } from 'react-icons/hi';
 
 const Header = ({ activeHeading }) => {
   const { isAuthenticated, user } = useSelector((state) => state.user);
+  const {allProducts} = useSelector((state) => state.products);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [searchData, setSearchData] = useState("");
   const [active, setActive] = useState(false);
@@ -34,7 +36,7 @@ const Header = ({ activeHeading }) => {
     const term = e.target.value;
     setSearchTerm(term);
 
-    const filteredProducts = productData && productData.filter((product) =>
+    const filteredProducts = allProducts && allProducts.filter((product) =>
       product.name.toLowerCase().includes(term.toLowerCase())
     );
     setSearchData(filteredProducts);
@@ -60,7 +62,7 @@ const Header = ({ activeHeading }) => {
 
           {/* Seach Box */}
           <div className="w-[50%] relative">
-            <input type='text' placeholder='Search product...' value={searchTerm} onChange={handleSearchChange} className='h-[40px] w-full px-2 border-[#3957db] border-[2px] rounded-md' />
+            <input type='text' placeholder='Search product...' value={searchTerm} onChange={handleSearchChange} className='h-[40px] w-full px-2 border-[#3957db] border-[2px] rounded-md'/>
             <AiOutlineSearch size={30} className='absolute right-2 top-1.5 cursor-pointer' />
             {
               searchData && searchData.length !== 0 ? (
@@ -70,9 +72,12 @@ const Header = ({ activeHeading }) => {
 
                     const Product_name = d.replace(/\s+/g, "-");
                     return (
-                      <Link to={`/product/${Product_name}`}>
+                      <Link to={`/products/${i.name.replace(/\s+/g, "-")}`} onClick={() => {
+                        window.location.reload();
+                        window.location.href = `/products/${i.name.replace(/\s+/g, "-")}`;
+                      }}>
                         <div className="w-full flex items-start-py-3">
-                          <img src={i.image_Url[0].url} alt=""
+                          <img src={`${backend_url}${i.images[0]}`} alt=""
                             className='w-[40px] h-[40]px mr-[10px]'
                           />
                           <h1>{i.name}</h1>

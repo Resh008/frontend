@@ -4,6 +4,7 @@ import { AiFillHeart, AiOutlineHeart, AiOutlineMessage, AiOutlineShoppingCart } 
 import { backend_url } from '../../../server';
 import { Link } from 'react-router-dom';
 import styles from '../../../styles/style';
+import Magnifier from "react-magnifier";
 
 const ProductDetailsCard = ({ setOpen, data }) => {
   const [count, setCount] = useState(1);
@@ -53,7 +54,7 @@ const ProductDetailsCard = ({ setOpen, data }) => {
                 <div className="flex">
                   <Link to={`/shop/preview/${data.shop._id}`} className="flex">
                     <img
-                      src={data.images && `${backend_url}${data.images[0]}`}
+                      src={data.images && `${backend_url}${data.shop.avatar.url}`}
                       alt=""
                       className="w-[50px] h-[50px] rounded-full mr-2"
                     />
