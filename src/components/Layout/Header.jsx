@@ -20,6 +20,8 @@ import { HiOutlineLogout } from 'react-icons/hi';
 const Header = ({ activeHeading }) => {
   const { isAuthenticated, user } = useSelector((state) => state.user);
   const {allProducts} = useSelector((state) => state.products);
+  const { cart } = useSelector((state) => state.cart);
+
 
   const [searchTerm, setSearchTerm] = useState("");
   const [searchData, setSearchData] = useState("");
@@ -153,7 +155,7 @@ const Header = ({ activeHeading }) => {
                   size={30}
                   color='rgb(255 255 255 /83% )' />
                 <span className='absolute right-0 top-0 rounded-full bg-[#FA3E3E] w-4 h-4 top right p-0 m-0 text-white text-[12px] leading-tight text-center'>
-                  1
+                {cart && cart.length}
                 </span>
               </div>
             </div>
@@ -208,7 +210,7 @@ const Header = ({ activeHeading }) => {
             <div className="relative mr-[20px]">
               <AiOutlineShoppingCart size={30} />
               <span className='absolute right-0 top-0 rounded-full bg-[#FA3E3E] w-4 h-4 top right p-0 m-0 text-white text-[12px] leading-tight text-center'>
-                1
+                {cart && cart.length}
               </span>
             </div>
           </div>

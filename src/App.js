@@ -36,12 +36,14 @@ import ProtectedRoute from "./Routes/ProtectedRoute.js";
 import { ShopHomePage } from "./ShopRoutes.js";
 import SellerProtectedRoute from "./Routes/SellerProtectedRoute.js";
 import { getAllProducts } from "./redux/actions/product.js";
+import { getAllEvents } from "./redux/actions/event.js";
 
 const App = () => {
   useEffect(() => {
     Store.dispatch(loadUser());
     Store.dispatch(loadSeller());
     Store.dispatch(getAllProducts());
+    Store.dispatch(getAllEvents());
   }, []);
 
   return (
@@ -133,7 +135,7 @@ const App = () => {
             </SellerProtectedRoute>
           }
         />
-      </Routes>
+        </Routes>
       <ToastContainer
         position="top-right"
         autoClose={5000}

@@ -1,102 +1,158 @@
-import React, { useState } from 'react'
-import { RxCross1 } from 'react-icons/rx'
-import styles from '../../styles/style'
-import { IoBagHandleOutline } from "react-icons/io5"
-import {HiOutlineMinus, HiPlus } from "react-icons/hi"
-import { Link } from 'react-router-dom'
+import React, { useState } from "react";
+import { RxCross1 } from "react-icons/rx";
+import styles from "../../styles/style";
+import { IoBagHandleOutline } from "react-icons/io5";
+import { HiOutlineMinus, HiPlus } from "react-icons/hi";
+import { Link } from "react-router-dom";
+import Button from "react-bootstrap/Button";
+import Offcanvas from "react-bootstrap/Offcanvas";
+import { useDispatch, useSelector } from "react-redux";
+import { backend_url } from "../../server";
+import { addToCart, removeFromCart } from "../../redux/actions/cart";
+import { toast } from "react-toastify";
 
 const Cart = ({ setOpenCart }) => {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const { cart } = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+  
 
-    const cartData = [
-        {
-            name: "Iphone 15 pro Max 256GB Gold",
-            description: " lorem ",
-            price: 10200
-        },
-        {
-            name: "Iphone 15 pro Max 256GB Gold",
-            description: " lorem ",
-            price: 90000
-        },
-        {
-            name: "Iphone 15 pro Max 256GB Gold",
-            description: " lorem ",
-            price: 80000
-        },
-    ]
+  const removeFromCartHandler = (data) => {
+    dispatch(removeFromCart(data));
+  };
 
-    return (
-        <div className='fixed top-0 left-0 w-full bg-[#0000004b] h-screen z-10'>
-            <div className="fixed top-0 right-0 min-h-full w-[25%] bg-white flex flex-col justify-between shadow-sm">
-                <div>
-                    <div className="flex w-full justify-end pt-5 pr-5">
-                        <RxCross1 size={25} className='cursor-pointe' onClick={() => setOpenCart(false)} />
-                    </div>
-                    {/* Item Length */}
-                    <div className={`${styles.noramlFlex} p-4`}>
-                        <IoBagHandleOutline size={25} />
-                        <h5 className='pl-2 text-[20px] font-[500]'>
-                            3 Items
-                        </h5>
-                    </div>
+  const totalPrice = cart.reduce(
+    (acc, item) => acc + item.qty * item.discountPrice,
+    0
+  );
 
-                {/* Cart Items */}
-                <br/>
-                <div className='w-full border-t'>
-                        {
-                            cartData && cartData.map((i,index) => (
-                                <CartSingle key={index} data={i} />
-                            ))
-                        }
+  const quantityChangeHandler = (data) => {
+    dispatch(addToCart(data));
+  };
 
-                </div>
-                </div>
-                {/* Checkoout Button */}
-                <div className="px-5 mb-3">
-                    <Link to = "/checkout">
-                        <div className={`h-[45px] flex items-center justify-center w-[100%] bg-[#e44343] rounded-[5px]`}>
-                        <h1 className='text-white text-[18px] font-[600]'>Checkout Now (Rs.10,000)</h1>
+  return (
+    <div className="fixed top-0 left-0 w-full bg-[#0000004b] h-screen z-10">
+      <div className="fixed top-0 right-0 min-h-full w-[25%] bg-white flex flex-col justify-between shadow-sm">
+            {
+                cart && cart.length === 0 ?  (
+                    <div className="w-full h-screen flex items-center justify-center">
+                        <div className="flex w-full justify-end pt-5 pr-5 fixed top-3 right-3">
+                            <RxCross1 size={24}
+                            className="cursor-pointer"
+                            onClick={() => setOpenCart(false)}
+                            />
                         </div>
-                    </Link>
-                </div>
-            </div>
-
-        </div>
-    )
-}
-
-const CartSingle = ({data}) => {
-    const [value,setValue] =  useState(1);
-    const totalPrice = data.price * value
-    return(
-        <div className="border-b p-4">
-            <div className="w-full flex items-center">
-                <div>
-                    <div className={`bg-[#a7abb14f] border border-[#a7abb14f] rounded-full w-[25px] h-[25px] ${styles.noramlFlex} justify-center cursor-pointer`}
-                    onClick={()=> setValue(value+1)}
-                    >
-                        <HiPlus  size={18} color="#000" />
+                        <img className=" flex w-[200px] h-[200px]" src="https://media.discordapp.net/attachments/749319878003130380/1228041970425790565/panaproduct.png?ex=662a9a35&is=66182535&hm=441698b6b51b8ecbcbadbd5d92c6b3f9202d63c99b17d2a1395242dbca197ef3&=&format=webp&quality=lossless&width=511&height=481" alt="" />
+                        <br />
+                        <h5 className="fixed top-20">Oops, Your cart is empty</h5>
                     </div>
-                    <span className='pl-[10px]'>
-                        {value}
-                    </span>
-                    <div className='bg-[#e44343] rounded-full w-[25px] h-[25px] flex items-center justify-center cursor-pointer'
-                     onClick={()=> setValue(value===1 ? 1 : value -1)}
-                    >
-                        <HiOutlineMinus size={16} color='#fff' />
-                    </div>
-                </div>
-                <img src="https://png.monster/wp-content/uploads/2022/09/png.monster-209.png" alt="" 
-                className='w-[80px] h-[80px] ml-2'/>
-                <div className='pl-[5px]'>
-                    <h1>{data.name}</h1>
-                    <h4 className='font=[400] text-[15px] text-[#00000082]'>Rs.{data.price} x {value}</h4>
-                    <h4 className='font-[600] text-[17px] pt-3 text-[#d02222] font-Roboto'>Rs.{totalPrice}</h4>
-                </div>
-                <RxCross1 className='cursor-pointer'/>
-            </div>
-        </div>
-    )
-}
+                ) : 
+                <>
+                        <div>
+          <div className="flex w-full justify-end pt-5 pr-5">
+            <RxCross1
+              size={25}
+              className="cursor-pointe"
+              onClick={() => setOpenCart(false)}
+            />
+          </div>
+          {/* Item Length */}
+          <div className={`${styles.noramlFlex} p-4`}>
+            <IoBagHandleOutline size={25} />
+            <h5 className="pl-2 text-[20px] font-[500]">{cart && cart.length}</h5>
+          </div>
 
-export default Cart
+          {/* Cart Items */}
+          <br />
+          <div className="w-full border-t">
+            {cart &&
+              cart.map((i, index) => (
+                <CartSingle
+                  key={index}
+                  data={i}
+                  quantityChangeHandler={quantityChangeHandler}
+                  removeFromCartHandler={removeFromCartHandler}
+                />
+              ))}
+          </div>
+        </div>
+        {/* Checkoout Button */}
+        <div className="px-5 mb-3">
+          <Link to="/checkout">
+            <div
+              className={`h-[45px] flex items-center justify-center w-[100%] bg-[#e44343] rounded-[5px]`}
+            >
+              <h1 className="text-white text-[18px] font-[600]">
+                Checkout Now (Rs.{totalPrice})
+              </h1>
+            </div>
+          </Link>
+        </div>
+                </>
+            }
+      </div>
+    </div>
+  );
+};
+
+const CartSingle = ({ data, quantityChangeHandler, removeFromCartHandler }) => {
+  const [value, setValue] = useState(data.qty);
+  const totalPrice = data.discountPrice * value;
+ 
+
+  const increment = (data) => {
+    if(data.stock <= value){
+        toast.error("Oops, no more in stock");
+    } else {
+        setValue(value + 1);
+            const updateCardData = {...data, qty: value + 1};
+            quantityChangeHandler(updateCardData);
+    }
+  };
+
+  const decrement = (data) => {
+    setValue(value === 1 ? 1 : value - 1);
+    const updateCartData = { ...data, qty: value === 1 ? 1 : value - 1 };
+    quantityChangeHandler(updateCartData)
+  };
+  return (
+    <div className="border-b p-4">
+      <div className="w-full flex items-center">
+        <div>
+          <div
+            className={`bg-[#a7abb14f] border border-[#a7abb14f] rounded-full w-[25px] h-[25px] ${styles.noramlFlex} justify-center cursor-pointer`}
+            onClick={() => increment(data)}
+          >
+            <HiPlus size={18} color="#000" />
+          </div>
+          <span className="pl-[10px]">{data.qty}</span>
+          <div
+            className="bg-[#e44343] rounded-full w-[25px] h-[25px] flex items-center justify-center cursor-pointer"
+            onClick={() => decrement(data)}
+          >
+            <HiOutlineMinus size={16} color="#fff" />
+          </div>
+        </div>
+        <img
+          src={`${backend_url}${data?.images[0]}`}
+          alt=""
+          className="w-[130px] h-min ml-2 mr-2 rounded-[5px]"
+        />
+        <div className="pl-[5px]">
+          <h1>{data.name}</h1>
+          <h4 className="font=[400] text-[15px] text-[#00000082]">
+            Rs.{data.discountPrice} x {value}
+          </h4>
+          <h4 className="font-[600] text-[17px] pt-3 text-[#d02222] font-Roboto">
+            Rs.{totalPrice}
+          </h4>
+        </div>
+        <RxCross1 className="cursor-pointer" onClick={() => removeFromCartHandler(data)} />
+      </div>
+    </div>
+  );
+};
+
+export default Cart;

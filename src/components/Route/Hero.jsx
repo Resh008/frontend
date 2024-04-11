@@ -14,8 +14,8 @@ const Hero = () => {
           Welcome to Almadi
         </h1>
         <p className='pt-5 text-[16px] font-Poppins font-[400] text-[#000000ba]'>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde dolores quo, quisquam hic ipsum ipsam, eius placeat obcaecati eaque quam dolorem quos. {" "} 
-          <br/>Velit temporibus ex magnam id reiciendis, assumenda accusantium?
+          Sabai saman aaba  {" "} 
+          <br/>tapai ko Almadi ma
         </p>
         <Link to="/products" className='inline-block'>
           <div className={`${styles.button} mt-5 `}>

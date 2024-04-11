@@ -4,6 +4,7 @@ import styles from '../../../styles/style';
 import { AiFillHeart, AiFillStar, AiOutlineEye, AiOutlineHeart, AiOutlineShoppingCart, AiOutlineStar } from 'react-icons/ai';
 import ProductDetailsCard from "../ProductDetailsCard/ProductDetailsCard"
 import { backend_url } from '../../../server';
+import { useSelector } from 'react-redux';
 
 const ProductCard = ({ data }) => {
     const [click, setClick] = useState(false);
