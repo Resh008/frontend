@@ -17,7 +17,7 @@ import { RxCross1 } from 'react-icons/rx'
 import { Country, State, City } from 'country-state-city';
 
 const ProfileContent = ({ active }) => {
-  const { user, error,SucessMessage } = useSelector((state) => state.user);
+  const { user, error, SucessMessage } = useSelector((state) => state.user);
   const [name, setName] = useState(user && user.name);
   const [email, setEmail] = useState(user && user.email);
   const [phoneNumber, setPhoneNumber] = useState(user && user.phoneNumber)
@@ -34,11 +34,11 @@ const ProfileContent = ({ active }) => {
       toast.error(error);
       dispatch({ type: "clearErrors" });
     }
-    if (SucessMessage){
+    if (SucessMessage) {
       toast.success(SucessMessage.SucessMessage)
-      dispatch({type:"clearErrors"})
+      dispatch({ type: "clearErrors" })
     }
-  }, [error,SucessMessage]);
+  }, [error, SucessMessage]);
 
   if (!user || !user.avatar) {
     return <div className="flex items-center justify-center pl-[30rem]"><Loading /></div>;
@@ -390,16 +390,59 @@ const TrackOrder = () => {
 
 const ChangePassword = () => {
 
-  const passwordChangeHandler  = async () => {
-    
-  }
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const {user} = useSelector((state)=>state.user);
+
+  const passwordChangeHandler = async (e) => {
+    e.preventDefault();
+
+    await axios
+      .put(
+        `${server}/user/update-user-password`,
+        { oldPassword, newPassword, confirmPassword },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        toast.success(res.data.success);
+        setOldPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
+      })
+      .catch((error) => {
+        toast.error(error.response.data.message);
+        console.log(error.response.data.message)
+      });
+  };
 
   return (
-    <div className="w-full px-5">
-        <h1 className="block text-[25px] text-center font-[600] text-[#262626] pb-2">Change Password</h1>
-          <div className="w-full">
-            <form aria-required onSubmit={passwordChangeHandler}></form>
+
+    <div className="bg-gray-100 flex items-center justify-center pt-6">
+      <div className="bg-white p-8 rounded-lg shadow-lg max-w-sm w-full">
+        <div className="flex items-center space-x-2 mb-6">
+          <img src={`${backend_url}${user?.avatar.url}`} class="rounded-full size-[50px]"/>
+          <h1 className="text-xl font-semibold">Change Password</h1>
+        </div>
+        <p className="text-sm text-gray-600 mb-6">Update password for enhanced account security.</p>
+        <form className="space-y-6" aria-required onSubmit={passwordChangeHandler}>
+          <div>
+            <label className="text-sm font-medium text-gray-700 block mb-2">Enter your Current Password *</label>
+            <input type="password" value={oldPassword} onChange={(e) => { setOldPassword(e.target.value) }} className="password-input form-input block w-full border border-gray-300 rounded-md shadow-sm"/>
           </div>
+          <div>
+            <label className="text-sm font-medium text-gray-700 block mb-2">New Password *</label>
+            <input type="password" value={newPassword} onChange={(e) => { setNewPassword(e.target.value) }} className="password-input form-input block w-full border border-gray-300 rounded-md shadow-sm"/>
+          </div>
+          <div>
+            <label className="text-sm font-medium text-gray-700 block mb-2">Confirm New Password *</label>
+            <input type="password" value={confirmPassword} onChange={(e) => { setConfirmPassword(e.target.value) }} className="password-input form-input block border w-full border-gray-300 rounded-md shadow-sm"/>
+          </div>
+          <div className="flex justify-center">
+            <button type="submit" className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-300">Update Password</button>
+          </div>
+        </form>
+      </div>
     </div>
   )
 }
@@ -445,17 +488,17 @@ const Address = () => {
       setOpen(false)
       window.location.reload();
       toast.success("User data added sucessfully")
-  
+
     }
   }
 
   const handleDelete = (item) => {
     dispatch(deleteUserAddress(item._id),
-    toast.success("Adress deleted"))
+      toast.success("Adress deleted"))
   }
 
 
-  
+
 
 
   return (
@@ -480,10 +523,10 @@ const Address = () => {
                       <select name="" id="" value={country} onChange={(e) => setCountry(e.target.value)} className="w-[95%] border h-[40px] rounded-[5px] focus:border-[#f54467]">
                         <option value={"Nepal"} key={"Nepal"} className="block pb-2" >
                           Nepal
-                          </option>
-                          <option value={"Nepal"} key={"Nepal"} className="block pb-2" >
+                        </option>
+                        <option value={"Nepal"} key={"Nepal"} className="block pb-2" >
                           Nepal
-                          </option>
+                        </option>
                       </select>
                     </div>
 
@@ -573,9 +616,9 @@ const Address = () => {
         </div>
       </div>
       <br />
-        {
-          user && user.addresses.map((item,index)=>(
-            <div className="w-full bg-white h-[70px] rounded-[4px] flex items-center px-3 shadow justify-between pr-10 mb-5" key={index}>
+      {
+        user && user.addresses.map((item, index) => (
+          <div className="w-full bg-white h-[70px] rounded-[4px] flex items-center px-3 shadow justify-between pr-10 mb-5" key={index}>
             <div className="flex items-center">
               <h5 className="pl-5 font-[600]">{item.addressType}</h5>
             </div>
@@ -586,17 +629,17 @@ const Address = () => {
               <h6>{user && user.phoneNumber}</h6>
             </div>
             <div className="min-w-[10%] flex items-center justify-between pl-8 cursor-pointer">
-              <TiDeleteOutline size={25} className="curosor-pointer" onClick={()=>handleDelete(item)}/>
+              <TiDeleteOutline size={25} className="curosor-pointer" onClick={() => handleDelete(item)} />
             </div>
-    
+
           </div>
-          ))
-        }
-        {
-          user && user.addresses.length === 0 && (
-            <h5 className="text-center pt-5 text-[18px]">You don't have any adress saved!</h5>
-          )
-        }
+        ))
+      }
+      {
+        user && user.addresses.length === 0 && (
+          <h5 className="text-center pt-5 text-[18px]">You don't have any adress saved!</h5>
+        )
+      }
     </div>
   )
 }
