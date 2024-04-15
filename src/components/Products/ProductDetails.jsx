@@ -6,8 +6,13 @@ import { backend_url } from '../../server';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllProductsShop } from '../../redux/actions/product';
 import Magnifier from "react-magnifier";
+import { toast } from 'react-toastify';
+import { addToWishList, removeFromWishList } from '../../redux/actions/wishList';
+import { addToCart } from '../../redux/actions/cart';
 
 const ProductDetails = ({ data }) => {
+  const {cart} = useSelector((state)=>state.cart)
+  const {wishList} = useSelector((state)=>state.wishList)
   const [count, setCount] = useState(1);
   const [click, setClick] = useState(false);
   const [select, setSelect] = useState(1);
@@ -18,8 +23,14 @@ const ProductDetails = ({ data }) => {
 
 
   useEffect(() => {
-    dispatch(getAllProductsShop(data && data.shop._id));
-  }, [dispatch, data]);
+    dispatch(getAllProductsShop(data && data?.shop._id));
+    if(wishList && wishList.find((i)=>i._id === data._id)){
+      setClick(true)
+  } else {
+      setClick(false)
+  }
+  
+  }, [dispatch, data,wishList]);
 
   const decrementCount = () => {
     if (count > 1) {
@@ -33,6 +44,34 @@ const ProductDetails = ({ data }) => {
 
   const handleMessageSubmit = () => {
     navigate("/inbox?conversation=Hello This is a pasal which is not yet a pasal")
+
+  }
+
+  const removeFromWishListHandler = (data) => {
+    setClick(!click);
+    dispatch(removeFromWishList(data));
+    toast.success("Removed from Wish list")
+}
+
+const addToWishListHandler = (data) => {
+    setClick(!click);
+    dispatch(addToWishList(data));
+    toast.success("Added to Wish list")
+}
+
+const addToCartHandler = (id) => {
+    const isItemExists = cart && cart.find((i) => i._id === id);
+    if(isItemExists){
+      toast.error("Item exist in your cart")
+    } else {
+        if(data.stock <= 1){
+          toast.error("Oops, no more in stock");
+        } else {
+          const cartData = {...data, qty: count};
+          dispatch(addToCart(cartData));
+          toast.success("Item added to cart")
+        }
+    }
 
   }
 
@@ -112,7 +151,7 @@ const ProductDetails = ({ data }) => {
                       <AiFillHeart
                         size={30}
                         className="cursor-pointer"
-                        // onClick={() => removeFromWishlistHandler(data)}
+                        onClick={() => removeFromWishListHandler(data)}
                         color={click ? "red" : "#333"}
                         title="Remove from wishlist"
                       />
@@ -120,7 +159,7 @@ const ProductDetails = ({ data }) => {
                       <AiOutlineHeart
                         size={30}
                         className="cursor-pointer"
-                        // onClick={() => addToWishlistHandler(data)}
+                        onClick={() => addToWishListHandler(data)}
                         color={click ? "red" : "#333"}
                         title="Add to wishlist"
                       />
@@ -129,7 +168,7 @@ const ProductDetails = ({ data }) => {
                 </div>
                 <div
                   className={`${styles.button} !mt-6 !rounded !h-11 flex items-center`}
-                // onClick={() => addToCartHandler(data._id)}
+                onClick={() => addToCartHandler(data._id)}
                 >
                   <span className="text-white flex items-center">
                     Add to cart <AiOutlineShoppingCart className="ml-1" />
@@ -254,9 +293,12 @@ const ProductDetailsInfo = ({ data, products }) => {
                   className='w-[50px] h-[50px] rounded-full' />
 
                 <div className='pl-3'>
+                  <Link to = {`/shop/preview/${data.shop._id}`}>
                   <h3 className={`${styles.shop_name}`}>
                     {data.shop.name}
                   </h3>
+                  </Link>
+
                   <h5 className='pb-2 text-[15px]'>
                     3/5 Ratings
                   </h5>

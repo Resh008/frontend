@@ -6,66 +6,88 @@ import { HiOutlineMinus, HiPlus } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { BsCartPlus } from "react-icons/bs";
 import { AiOutlineHeart } from "react-icons/ai";
+import { useDispatch, useSelector } from "react-redux";
+import { backend_url } from "../../server";
+import { addToWishList, removeFromWishList } from "../../redux/actions/wishList";
+import { toast } from "react-toastify";
+import { addToCart } from "../../redux/actions/cart";
 
 const Whitelist = ({ setopenWitelist }) => {
-  const cartData = [
-    {
-      name: "Iphone 15 pro Max 256GB Gold",
-      description: " lorem ",
-      price: 10200,
-    },
-    {
-      name: "Iphone 15 pro Max 256GB Gold",
-      description: " lorem ",
-      price: 90000,
-    },
-    {
-      name: "Iphone 15 pro Max 256GB Gold",
-      description: " lorem ",
-      price: 80000,
-    },
-  ];
+  const { wishList } = useSelector((state) => state.wishList);
+  const dispatch = useDispatch();
+
+  const removeFromwishListHandler = (data) => {
+    dispatch(removeFromWishList(data));
+  };
+
+  const addToCartHandler = (data) => {
+    const newData = {...data, qty:1}
+    dispatch(addToCart(newData));
+    setopenWitelist(false);
+    toast.success("Wish list product added to your cart")
+  }
+
+
 
   return (
     <div className="fixed top-0 left-0 w-full bg-[#0000004b] h-screen z-10">
       <div className="fixed top-0 right-0 min-h-full w-[25%] bg-white flex flex-col justify-between shadow-sm">
-        <div>
-          <div className="flex w-full justify-end pt-5 pr-5">
-            <RxCross1
-              size={25}
-              className="cursor-pointer"
-              onClick={() => setopenWitelist(false)}
-            />
-          </div>
-          {/* Item Length */}
-          <div className={`${styles.noramlFlex} p-4`}>
-            <AiOutlineHeart size={25} />
-            <h5 className="pl-2 text-[20px] font-[500]">3 Items</h5>
-          </div>
+        {
+          wishList && wishList.length === 0 ? (
+            <div className="w-full h-screen flex items-center justify-center">
+              <div className="flex w-full justify-end pt-5 pr-5 fixed top-3 right-3">
+                <RxCross1 size={24}
+                  className="cursor-pointer"
+                  onClick={() => setopenWitelist(false)}
+                />
+              </div>
+              <img className=" flex w-[200px] h-[200px]" src="https://media.discordapp.net/attachments/749319878003130380/1228041970425790565/panaproduct.png?ex=662a9a35&is=66182535&hm=441698b6b51b8ecbcbadbd5d92c6b3f9202d63c99b17d2a1395242dbca197ef3&=&format=webp&quality=lossless&width=511&height=481" alt="" />
+              <br />
+              <h5 className="fixed top-20">Oops, Your wish list is empty</h5>
+            </div>
 
-          {/* Cart Items */}
-          <br />
-          <div className="w-full border-t">
-            {cartData &&
-              cartData.map((i, index) => <CartSingle key={index} data={i} />)}
-          </div>
-        </div>
+          ) : (
+            <>
+              <div>
+                <div className="flex w-full justify-end pt-5 pr-5">
+                  <RxCross1
+                    size={25}
+                    className="cursor-pointer"
+                    onClick={() => setopenWitelist(false)}
+                  />
+                </div>
+                {/* Item Length */}
+                <div className={`${styles.noramlFlex} p-4`}>
+                  <AiOutlineHeart size={25} />
+                  <h5 className="pl-2 text-[20px] font-[500]">{wishList && wishList.length} Item</h5>
+                </div>
+
+                {/* Cart Items */}
+                <br />
+                <div className="w-full border-t">
+                  {wishList &&
+                    wishList.map((i, index) => <CartSingle key={index} data={i} removeFromwishListHandler = {removeFromwishListHandler} addToCartHandler={addToCartHandler}/>)}
+                </div>
+              </div>
+            </>
+          )
+        }
       </div>
     </div>
   );
 };
 
-const CartSingle = ({ data }) => {
+const CartSingle = ({ data, removeFromwishListHandler,addToCartHandler }) => {
   const [value, setValue] = useState(1);
-  const totalPrice = data.price * value;
+  const totalPrice = data.discountPrice * value;
   return (
     <div className="border-b p-4">
       <div className="w-full flex items-center">
-        <RxCross1 className="cursor-pointer" />
+        <RxCross1 className="cursor-pointer" onClick={() => removeFromwishListHandler(data)}/>
         <img
-          src="https://png.monster/wp-content/uploads/2022/09/png.monster-209.png"
+          src={`${backend_url}${data?.images[0]}`}
           alt=""
-          className="w-[80px] h-[80px] ml-2"
+          className="w-[130px] h-min ml-2 mr-2 rounded-[5px]"
         />
 
         <div className="pl-[5px]">
@@ -79,6 +101,7 @@ const CartSingle = ({ data }) => {
             size={20}
             className="cursor-pointer"
             title="Add to cart"
+            onClick={()=> addToCartHandler(data)}
           />
         </div>
       </div>

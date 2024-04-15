@@ -21,7 +21,7 @@ const Header = ({ activeHeading }) => {
   const { isAuthenticated, user } = useSelector((state) => state.user);
   const {allProducts} = useSelector((state) => state.products);
   const { cart } = useSelector((state) => state.cart);
-
+  const {wishList} = useSelector((state)=>state.wishList)
 
   const [searchTerm, setSearchTerm] = useState("");
   const [searchData, setSearchData] = useState("");
@@ -70,11 +70,10 @@ const Header = ({ activeHeading }) => {
               searchData && searchData.length !== 0 ? (
                 <div className='absolute min-h-[30vh] bg-slate-50 shadow-sw-2 z-[9] p-4'>
                   {searchData && searchData.map((i, index) => {
-                    const d = i.name;
 
-                    const Product_name = d.replace(/\s+/g, "-");
                     return (
-                      <Link to={`/products/${i.name.replace(/\s+/g, "-")}`} onClick={() => {
+                      // <Link to={`/products/${i.name.replace(/\s+/g, "-")}`} onClick={() => {
+                        <Link to={`/products/${i._id}`} onClick={() => {
                         window.location.reload();
                         window.location.href = `/products/${i.name.replace(/\s+/g, "-")}`;
                       }}>
@@ -143,7 +142,7 @@ const Header = ({ activeHeading }) => {
                   size={30}
                   color='rgb(255 255 255 /83% )' />
                 <span className='absolute right-0 top-0 rounded-full bg-[#FA3E3E] w-4 h-4 top right p-0 m-0 text-white text-[12px] leading-tight text-center'>
-                  0
+                  {wishList && wishList.length}
                 </span>
               </div>
             </div>
