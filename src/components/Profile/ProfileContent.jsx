@@ -10,12 +10,14 @@ import { DataGrid } from '@mui/x-data-grid';
 import Button from '@mui/material/Button'
 import { TiDeleteOutline } from "react-icons/ti";
 import PopupPassword from "./popupPassword"; // Import the PasswordChangePopup component
-import { updateUserInformation } from "../../redux/actions/user";
+import { deleteUserAddress, updatUserAddress, updateUserAdress, updateUserInformation } from "../../redux/actions/user";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { RxCross1 } from 'react-icons/rx'
+import { Country, State, City } from 'country-state-city';
 
 const ProfileContent = ({ active }) => {
-  const { user, error } = useSelector((state) => state.user);
+  const { user, error,SucessMessage } = useSelector((state) => state.user);
   const [name, setName] = useState(user && user.name);
   const [email, setEmail] = useState(user && user.email);
   const [phoneNumber, setPhoneNumber] = useState(user && user.phoneNumber)
@@ -32,7 +34,11 @@ const ProfileContent = ({ active }) => {
       toast.error(error);
       dispatch({ type: "clearErrors" });
     }
-  }, [error]);
+    if (SucessMessage){
+      toast.success(SucessMessage.SucessMessage)
+      dispatch({type:"clearErrors"})
+    }
+  }, [error,SucessMessage]);
 
   if (!user || !user.avatar) {
     return <div className="flex items-center justify-center pl-[30rem]"><Loading /></div>;
@@ -49,10 +55,10 @@ const ProfileContent = ({ active }) => {
   const handleImage = async (e) => {
     const file = e.target.files[0];
     setAvatar(file);
-  
+
     const formData = new FormData();
     formData.append("image", file);
-  
+
     try {
       const response = await axios.put(`${server}/user/update-avatar`, formData, {
         headers: {
@@ -67,77 +73,77 @@ const ProfileContent = ({ active }) => {
       toast.error(error.response.data.message);
     }
   }
-  
 
-return (
-  <div className="w-full">
-    {active === 1 && (
-      <>
-        <div className="flex justify-center w-full">
-          <div className="relative">
-            <img
-              src={`${backend_url}${user?.avatar.url}`}
-              className="w-[150px] h-[150px] rounded-full object-cover border-[3px] border-[#3ad132]"
-              alt="User Avatar"
-            />
-            <div className="w-[30px] h-[30px] rounded-full !bg-[#fffdfd]  flex items-center justify-center cursor-pointer absolute bottom-[5px] right-[5px]">
-              <input type="file" id="image"
-                className="hidden"
-                onChange={handleImage} />
-              <label htmlFor="image">
-                <MdAddAPhoto />
-              </label>
+
+  return (
+    <div className="w-full">
+      {active === 1 && (
+        <>
+          <div className="flex justify-center w-full">
+            <div className="relative">
+              <img
+                src={`${backend_url}${user?.avatar.url}`}
+                className="w-[150px] h-[150px] rounded-full object-cover border-[3px] border-[#3ad132]"
+                alt="User Avatar"
+              />
+              <div className="w-[30px] h-[30px] rounded-full !bg-[#fffdfd]  flex items-center justify-center cursor-pointer absolute bottom-[5px] right-[5px]">
+                <input type="file" id="image"
+                  className="hidden"
+                  onChange={handleImage} />
+                <label htmlFor="image">
+                  <MdAddAPhoto />
+                </label>
+              </div>
             </div>
           </div>
-        </div>
-        <br />
-        <br />
-        <div className="w-full px-5">
-          <form onSubmit={handleSubmit} aria-required={true}>
-            {/* First row*/}
-            <div className="w-full 800px:flex block pb-3">
-              <div className="w-[50%]">
-                <label className="block pb-2">Full Name</label>
-                <input type="text" className={`${styles.input} !w-[95%]`}
-                  required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)} />
+          <br />
+          <br />
+          <div className="w-full px-5">
+            <form onSubmit={handleSubmit} aria-required={true}>
+              {/* First row*/}
+              <div className="w-full 800px:flex block pb-3">
+                <div className="w-[50%]">
+                  <label className="block pb-2">Full Name</label>
+                  <input type="text" className={`${styles.input} !w-[95%]`}
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)} />
+                </div>
+                <div className="w-[50%]">
+                  <label className="block pb-2">Email</label>
+                  <input type="text" className={`${styles.input} !w-[95%]`}
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)} />
+                </div>
               </div>
-              <div className="w-[50%]">
-                <label className="block pb-2">Email</label>
-                <input type="text" className={`${styles.input} !w-[95%]`}
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)} />
-              </div>
-            </div>
-            {/* Second row*/}
-            <div className="w-full 800px:flex block pb-3">
-              <div className="w-[50%]">
-                <label className="block pb-2">Phone Number</label>
-                <input type="number" className={`${styles.input} !w-[95%]`}
-                  required
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)} />
-              </div>
-              <div className="w-[50%]">
-                <label className="block pb-2">Enter your password Number</label>
-                <input type="password" className={`${styles.input} !w-[95%]`}
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)} />
-              </div>
+              {/* Second row*/}
+              <div className="w-full 800px:flex block pb-3">
+                <div className="w-[50%]">
+                  <label className="block pb-2">Phone Number</label>
+                  <input type="number" className={`${styles.input} !w-[95%]`}
+                    required
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)} />
+                </div>
+                <div className="w-[50%]">
+                  <label className="block pb-2">Enter your password Number</label>
+                  <input type="password" className={`${styles.input} !w-[95%]`}
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)} />
+                </div>
 
-              {/* <div className="w-[50%]">
+                {/* <div className="w-[50%]">
                   <label className="block pb-2">Zip Code</label>
                   <input type="number" className={`${styles.input} !w-[95%]`}
                     required
                     value={zipCode}
                     onChange={(e) => setZipCode(e.target.value)} />
                 </div> */}
-            </div>
-            {/* Third row*/}
-            {/* <div className="w-full 800px:flex block pb-3">
+              </div>
+              {/* Third row*/}
+              {/* <div className="w-full 800px:flex block pb-3">
                 <div className="w-[50%]">
                   <label className="block pb-2">Address 1</label>
                   <input type="address" className={`${styles.input} !w-[95%]`}
@@ -153,61 +159,61 @@ return (
                     onChange={(e) => setAddress2(e.target.value)} />
                 </div>
               </div> */}
-            <div className="flex items-center justify-between">
-              <input
-                className={`w-[256px] h-[40px] border border-[#3a24db] text-center text-[#3a24db] rounded-[3px] mt-8 cursor-pointer flex justify-center`}
-                required
-                value="Update"
-                type="submit" />
-            </div>
-          </form>
-        </div>
-      </>
-    )}
+              <div className="flex items-center justify-between">
+                <input
+                  className={`w-[256px] h-[40px] border border-[#3a24db] text-center text-[#3a24db] rounded-[3px] mt-8 cursor-pointer flex justify-center`}
+                  required
+                  value="Update"
+                  type="submit" />
+              </div>
+            </form>
+          </div>
+        </>
+      )}
 
-    {/* Order Page */}
-    {
-      active === 2 && (
-        <div>
-          <AllOrders />
-        </div>
-      )
-    }
+      {/* Order Page */}
+      {
+        active === 2 && (
+          <div>
+            <AllOrders />
+          </div>
+        )
+      }
 
-    {/* Refund Page */}
-    {
-      active === 3 && (
-        <div>
-          <AllRefundOrders />
-        </div>
-      )
-    }
-    {/* Track order Page */}
-    {
-      active === 5 && (
-        <div>
-          <TrackOrder />
-        </div>
-      )
-    }
-    {/* Paymenet Page */}
-    {
-      active === 6 && (
-        <div>
-          <PaymentMethod />
-        </div>
-      )
-    }
-    {/* Address Page */}
-    {
-      active === 7 && (
-        <div>
-          <Address />
-        </div>
-      )
-    }
-  </div>
-);
+      {/* Refund Page */}
+      {
+        active === 3 && (
+          <div>
+            <AllRefundOrders />
+          </div>
+        )
+      }
+      {/* Track order Page */}
+      {
+        active === 5 && (
+          <div>
+            <TrackOrder />
+          </div>
+        )
+      }
+      {/* Change Password Page */}
+      {
+        active === 6 && (
+          <div>
+            <ChangePassword />
+          </div>
+        )
+      }
+      {/* Address Page */}
+      {
+        active === 7 && (
+          <div>
+            <Address />
+          </div>
+        )
+      }
+    </div>
+  );
 };
 
 const AllOrders = () => {
@@ -382,61 +388,215 @@ const TrackOrder = () => {
   );
 };
 
-const PaymentMethod = () => {
+const ChangePassword = () => {
+
+  const passwordChangeHandler  = async () => {
+    
+  }
 
   return (
     <div className="w-full px-5">
-      <div className="flex w-full items-center justify-between">
-        <h1 className="text-[25px] font-[600] text-[#262626] pb-2">Payment Methods</h1>
-        <div className={`${styles.button} !rounded-md`}>
-          <span className="text-[#FFF]">Add New</span>
-        </div>
-      </div>
-      <br />
-      <div className="w-full bg-white h-[70px] rounded-[4px] flex items-center px-3 shadow justify-between pr-10">
-        <div className="flex items-center">
-          <img className="w-[16%]"
-            src="https://cdn.iconscout.com/icon/free/png-512/free-visa-3-226460.png?f=webp&w=256" alt="" />
-          <h5 className="pl-5 font-[600]">Resh Bikram Bhattarai</h5>
-        </div>
-        <div className="pl-8 flex items-center">
-          <h6>1234 **** *** ****</h6>
-          <h5 className="pl-6">08/2025</h5>
-        </div>
-        <div className="min-w-[10%] flex items-center justify-between pl-8 cursor-pointer">
-          <TiDeleteOutline size={25} className="curosor-pointer" />
-        </div>
-
-      </div>
+        <h1 className="block text-[25px] text-center font-[600] text-[#262626] pb-2">Change Password</h1>
+          <div className="w-full">
+            <form aria-required onSubmit={passwordChangeHandler}></form>
+          </div>
     </div>
   )
 }
 
 const Address = () => {
+
+  const [open, setOpen] = useState(false);
+  const [zipCode, setZipCode] = useState("")
+  const [address1, setAddress1] = useState("")
+  const [address2, setAddress2] = useState("")
+  const [password, setPassword] = useState("")
+  const dispatch = useDispatch()
+  const [city, setCity] = useState("");
+  const [addressType, setAddressType] = useState("")
+  const [country, setCountry] = useState("");
+  const { user } = useSelector((state) => state.user);
+
+  const addressTypeData = [
+    {
+      name: "Default",
+    },
+    {
+      name: "Home",
+    },
+    {
+      name: "Office"
+    },
+  ];
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (addressType === "" || country === "" || city === "") {
+      toast.error("Please fill all details")
+    } else {
+      dispatch(updatUserAddress(country, city, address1, address2, zipCode, addressType));
+      setCountry("")
+      setAddress1("")
+      setAddress2("")
+      setZipCode(null)
+      setCity("")
+      setAddressType("")
+      setOpen(false)
+      window.location.reload();
+      toast.success("User data added sucessfully")
+  
+    }
+  }
+
+  const handleDelete = (item) => {
+    dispatch(deleteUserAddress(item._id),
+    toast.success("Adress deleted"))
+  }
+
+
+  
+
+
   return (
     <div className="w-full px-5">
+      {
+        open && (
+          <div className="fixed w-full h-screen bg-[#00000089] top-0 left-0 flex items-center justify-center">
+            <div className="w-[35%] h-[85vh] bg-white rounded shadow relative overflow-y-hidden">
+              <div className=" w-full flex justify-end p-3">
+                <RxCross1 size={30} onClick={() => setOpen(false)} className="cursor-pointer" />
+              </div>
+              <h1 className="text-center text-[25px] font-Poppins">
+                Add new address
+              </h1>
+              <div className="w-full">
+                <form aria-required onSubmit={handleSubmit} >
+                  <div className="w-full block p-4">
+                    <div className="w-full pb-2">
+                      <label className="block">
+                        Country
+                      </label>
+                      <select name="" id="" value={country} onChange={(e) => setCountry(e.target.value)} className="w-[95%] border h-[40px] rounded-[5px] focus:border-[#f54467]">
+                        <option value={"Nepal"} key={"Nepal"} className="block pb-2" >
+                          Nepal
+                          </option>
+                          <option value={"Nepal"} key={"Nepal"} className="block pb-2" >
+                          Nepal
+                          </option>
+                      </select>
+                    </div>
+
+                    <div className="w-full pb-2">
+                      <label className="block pb-2">Choose your city</label>
+                      <select
+                        name=""
+                        id=""
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                        className="w-[95%] border h-[40px] rounded-[5px]"
+                      >
+                        <option value="" className="block border pb-2">
+                          Choose your city
+                        </option>
+                        {City &&
+                          City.getCitiesOfCountry('NP').map((item) => (
+                            <option
+                              className="block pb-2"
+                              key={item.isoCode}
+                              value={item.isoCode}
+                            >
+                              {item.name}
+                            </option>
+                          ))}
+                      </select>
+                    </div>
+
+                    <div className="w-full pb-2">
+                      <label className="block pb-2">Address 1</label>
+                      <input type="address" className={`${styles.input}`} onChange={(e) => setAddress1(e.target.value)} value={address1} />
+                    </div>
+                    <div className="w-full pb-2">
+                      <label className="block pb-2">Address 2</label>
+                      <input type="address" className={`${styles.input}`} onChange={(e) => setAddress2(e.target.value)} value={address2} />
+                    </div>
+
+                    <div className="w-full pb-2">
+                      <label className="block pb-2">Zip Code</label>
+                      <input type="address" className={`${styles.input}`} onChange={(e) => setZipCode(e.target.value)} value={zipCode} />
+                    </div>
+
+                    <div className="w-full pb-2">
+                      <label className="block pb-2">Adress Type</label>
+                      <select
+                        name=""
+                        id=""
+                        value={addressType}
+                        onChange={(e) => setAddressType(e.target.value)}
+                        className="w-[95%] border h-[40px] rounded-[5px]"
+                      >
+                        <option value="" className="block border pb-2">
+                          Choose your adress type
+                        </option>
+                        {addressTypeData &&
+                          addressTypeData.map((item) => (
+                            <option
+                              className="block pb-2"
+                              key={item.name}
+                              value={item.name}
+                            >
+                              {item.name}
+                            </option>
+                          ))}
+                      </select>
+                    </div>
+
+                    <div className="w-full pb-2">
+                      <input type="submit"
+                        className={`${styles.button} text-[#fff] cursor-pointer`}
+                        required
+                        readOnly />
+                    </div>
+
+                  </div>
+
+                </form>
+              </div>
+            </div>
+          </div>
+        )
+      }
       <div className="flex w-full items-center justify-between">
         <h1 className="text-[25px] font-[600] text-[#262626] pb-2">My Address</h1>
-        <div className={`${styles.button} !rounded-md`}>
+        <div className={`${styles.button} !rounded-md`} onClick={() => setOpen(true)}>
           <span className="text-[#FFF]">Add New</span>
         </div>
       </div>
       <br />
-      <div className="w-full bg-white h-[70px] rounded-[4px] flex items-center px-3 shadow justify-between pr-10">
-        <div className="flex items-center">
-          <h5 className="pl-5 font-[600]">Default Address</h5>
-        </div>
-        <div className="pl-8 flex items-center">
-          <h6>Civil Homes, Tinthana, Nepal</h6>
-        </div>
-        <div className="pl-8 flex items-center">
-          <h6>977-9860130046</h6>
-        </div>
-        <div className="min-w-[10%] flex items-center justify-between pl-8 cursor-pointer">
-          <TiDeleteOutline size={25} className="curosor-pointer" />
-        </div>
-
-      </div>
+        {
+          user && user.addresses.map((item,index)=>(
+            <div className="w-full bg-white h-[70px] rounded-[4px] flex items-center px-3 shadow justify-between pr-10 mb-5" key={index}>
+            <div className="flex items-center">
+              <h5 className="pl-5 font-[600]">{item.addressType}</h5>
+            </div>
+            <div className="pl-8 flex items-center">
+              <h6>{item.address1} / {item.address2}, Nepal</h6>
+            </div>
+            <div className="pl-8 flex items-center">
+              <h6>{user && user.phoneNumber}</h6>
+            </div>
+            <div className="min-w-[10%] flex items-center justify-between pl-8 cursor-pointer">
+              <TiDeleteOutline size={25} className="curosor-pointer" onClick={()=>handleDelete(item)}/>
+            </div>
+    
+          </div>
+          ))
+        }
+        {
+          user && user.addresses.length === 0 && (
+            <h5 className="text-center pt-5 text-[18px]">You don't have any adress saved!</h5>
+          )
+        }
     </div>
   )
 }
