@@ -15,6 +15,8 @@ import {
   ShopCreatePage,
   SellerActivationPage,
   ShopLoginPage,
+  CheckoutPage,
+  PaymentPage,
 } from "./Routes/Routes.js";
 import {
   ShopDashboardPage,
@@ -44,6 +46,7 @@ const App = () => {
     Store.dispatch(loadSeller());
     Store.dispatch(getAllProducts());
     Store.dispatch(getAllEvents());
+    // Store.dispatch(getAllEvents());
   }, []);
 
   return (
@@ -70,6 +73,19 @@ const App = () => {
           <ProfilePage />
           //</ProtectedRoute> 
         } />
+        <Route path="/checkout" element={
+        // <ProtectedRoute>
+          <CheckoutPage />
+          //</ProtectedRoute>
+        } />
+        <Route
+              path="/payment"
+              element={
+                // <ProtectedRoute>
+                  <PaymentPage />
+               // </ProtectedRoute>
+              }
+              />
 
         <Route path="/shop-create" element={<ShopCreatePage />} />
         <Route path="/shop-login" element={<ShopLoginPage />} />
