@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { server } from "../../server";
+import { base_url, server } from "../../server";
 import { toast } from "react-toastify";
 import styles from "../../styles/style";
 import KhaltiCheckout from "khalti-checkout-web";
+import { useSelector } from "react-redux";
 
 const Payment = () => {
   const [orderData, setOrderData] = useState([]);
+  const {user} = useSelector((state)=>state.user)
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,6 +33,17 @@ const Payment = () => {
       toast.error("Error initiating Khalti payment");
     }
   };
+
+  // const order = {
+  //   cart:orderData?.cart,
+  //   shippingAdress: orderData?.shippingAddress,
+  //   user: user && user,
+  //   totalPrice: orderData?.totalPrice,
+  //   paymentInfo: {
+  //     status: transactionData.status // Include payment status here
+  //   }
+  // }
+
 
 
 
@@ -85,14 +98,16 @@ const PaymentInfo = ({ initiateKhaltiPayment }) => {
     setOrderData(orderData);
   }, []);
 
+  console.log(orderData)
+
 const handleKhaltiPayment = async () => {
   const payload = {
-    "return_url": 'https://localhost:3000/checkout-success',
-    "website_url": 'https://example.com',
-    amount: (parseInt(orderData?.totalPrice))*10,
+    "return_url": `${base_url}payment-success`,
+    "website_url": 'http://localhost:3000/',
+    amount: (parseInt(orderData?.totalPrice)),
     // "amount": orderData?.,
-    "purchase_order_id": 'asdasd22',
-    "purchase_order_name": 'test',
+    "purchase_order_id": `Order01`,
+    "purchase_order_name": `Almadi`,
     "merchant_username":'Almadi',
     "customer_info": {
       name: orderData?.user.name ?? '',
@@ -116,7 +131,6 @@ const handleKhaltiPayment = async () => {
     );
     if (data?.payment_url) {
       const paymentUrl = data.payment_url;
-
       console.log('Navigating to payment URL:', paymentUrl);
 
       window.location.href = paymentUrl;
