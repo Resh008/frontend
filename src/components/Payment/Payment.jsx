@@ -162,9 +162,7 @@ const orderCashonDelivery = {
   shippingAdress: orderData?.shippingAddress,
   user: user, 
   totalPrice: orderData?.totalPrice,
-  paymentInfo: {
-    status: "Cash on Delivery"
-  },
+  paymentInfo: "Cash on delivery"
 }
 
 const cashonDelivery = async () => {
@@ -176,7 +174,7 @@ const cashonDelivery = async () => {
     // Clear local storage and redirect to success page
     localStorage.setItem("cartItems", JSON.stringify([]));
     localStorage.setItem("latestOrder", JSON.stringify({})); 
-    navigate("/order/success");
+    navigate("/");
     toast.success("Order successful!");
       }
       

@@ -74,27 +74,27 @@ const App = () => {
         <Route path="/events" element={<EventsPage />} />
         <Route path="/faq" element={<FAQPage />} />
         <Route path="/profile" element={
-        // <ProtectedRoute>
+        <ProtectedRoute>
           <ProfilePage />
-          //</ProtectedRoute> 
+          </ProtectedRoute> 
         } />
         <Route path="/checkout" element={
-        // <ProtectedRoute>
+        <ProtectedRoute>
           <CheckoutPage />
-          //</ProtectedRoute>
+          </ProtectedRoute>
         } />
         <Route path="/payment-success" element={
-        // <ProtectedRoute>
+        <ProtectedRoute>
           <PaymentSuccessPage />
-          //</ProtectedRoute>
+          </ProtectedRoute>
         } />
 
         <Route
               path="/payment"
               element={
-                // <ProtectedRoute>
+                <ProtectedRoute>
                   <PaymentPage />
-               // </ProtectedRoute>
+              </ProtectedRoute>
               }
               />
 

@@ -43,9 +43,7 @@ const PaymentSuccessPage = () => {
     shippingAdress: orderData?.shippingAddress,
     user: orderData?.user,
     totalPrice: orderData?.totalPrice,
-    paymentInfo: {
-      status: transactionData.status // Include payment status here
-    },
+    paymentInfo:"Paid via Khalti",
     paymentData:transactionData,
   }
 
@@ -64,7 +62,8 @@ const PaymentSuccessPage = () => {
       localStorage.setItem("cartItems", JSON.stringify([]));
       localStorage.setItem("latestOrder", JSON.stringify({})); 
       localStorage.setItem("orderData", JSON.stringify({})); 
-      navigate("/order/success");
+      navigate("/");
+      window.location.reload();
       toast.success("Order successful!");
         }
         
@@ -77,7 +76,6 @@ const PaymentSuccessPage = () => {
   useEffect(() => {
   if(transactionData.status==="Completed"){
     handleCheckout()
-    navigate("/")
     // window.location.realod()
 
   } else {
