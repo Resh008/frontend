@@ -27,6 +27,8 @@ import {
   ShopAllEvents,
   ShopAllCoupons,
   ShopPreviewPage,
+  ShopAllOrders,
+  ShopOrderDetails,
 } from "./Routes/ShopRoutes";
 import { ToastContainer, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -66,6 +68,8 @@ const App = () => {
         />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/products/:id" element={<ProductDetailsPage />} />
+        {/* <Route path="/event/:id" element={<EventDetailsPage />} /> */}
+
         <Route path="/best-selling" element={<BestSellingPage />} />
         <Route path="/events" element={<EventsPage />} />
         <Route path="/faq" element={<FAQPage />} />
@@ -113,6 +117,7 @@ const App = () => {
             </SellerProtectedRoute>
           }
         />
+        
         <Route
           path="/dashboard-create-product"
           element={
@@ -156,7 +161,25 @@ const App = () => {
             </SellerProtectedRoute>
           }
         />
+         <Route
+          path="/dashboard-orders"
+          element={
+            <SellerProtectedRoute>
+              <ShopAllOrders/>
+            </SellerProtectedRoute>
+          }
+        />
+
+<Route
+          path="/order/:id"
+          element={
+            <SellerProtectedRoute>
+              <ShopOrderDetails/>
+            </SellerProtectedRoute>
+          }
+        />
         </Routes>
+
       <ToastContainer
         position="top-right"
         autoClose={5000}

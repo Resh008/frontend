@@ -33,7 +33,7 @@ const PaymentSuccessPage = () => {
       toast.error("Payment not completed");
       navigate("/payment"); // Redirect to payment page if payment is not completed
     }
-    handleCheckout()
+    // handleCheckout()
   }, []);
 
  
@@ -41,7 +41,7 @@ const PaymentSuccessPage = () => {
   const order = {
     cart:orderData?.cart,
     shippingAdress: orderData?.shippingAddress,
-    user: user && user,
+    user: orderData?.user,
     totalPrice: orderData?.totalPrice,
     paymentInfo: {
       status: transactionData.status // Include payment status here
@@ -50,6 +50,7 @@ const PaymentSuccessPage = () => {
   }
 
   console.log(order.paymentData)
+  
 
   const [validation,setValidation] = useState();
 
@@ -62,6 +63,7 @@ const PaymentSuccessPage = () => {
       // Clear local storage and redirect to success page
       localStorage.setItem("cartItems", JSON.stringify([]));
       localStorage.setItem("latestOrder", JSON.stringify({})); 
+      localStorage.setItem("orderData", JSON.stringify({})); 
       navigate("/order/success");
       toast.success("Order successful!");
         }
@@ -72,12 +74,21 @@ const PaymentSuccessPage = () => {
     }
   }
 
-  handleCheckout()
+  useEffect(() => {
+  if(transactionData.status==="Completed"){
+    handleCheckout()
+    navigate("/")
+    // window.location.realod()
+
+  } else {
+    console.log("Error")
+  }
+  }, [transactionData])
+  
   
 
     return (
         <div>
-              
             <Header/>
             <br />
             <br />

@@ -91,14 +91,29 @@ let checkout = new KhaltiCheckout(config);
 
 const PaymentInfo = ({ initiateKhaltiPayment }) => {
 
+  const {user} =  useSelector((state)=>state.user);
+
   const [orderData, setOrderData] = useState([])
+  const navigate = useNavigate();
 
   useEffect(() => {
     const orderData = JSON.parse(localStorage.getItem("latestOrder"));
     setOrderData(orderData);
   }, []);
 
+
   console.log(orderData)
+  console.log(user)
+
+  // // const payload = {
+  // //   cart:orderData?.cart,
+  // //   shippingAdress: orderData?.shippingAddress,
+  // //   user: user,
+  // //   totalPrice: orderData?.totalPrice,
+  // //   paymentInfo: {
+  // //     status: "Cash on Delivery"
+  // //   },
+  // }
 
 const handleKhaltiPayment = async () => {
   const payload = {
@@ -124,7 +139,7 @@ const handleKhaltiPayment = async () => {
       payload,
       {
         headers: {
-          "authorization": `Key 750526a2c2634c16b466ebc281eb13db`,
+          "authorization": `Key 057952c55a814d9691ef319dc8309e90`,
           'Content-Type': 'application/json',
         },
       }
@@ -142,6 +157,35 @@ const handleKhaltiPayment = async () => {
   }
 };
 
+const orderCashonDelivery = {
+  cart:orderData?.cart,
+  shippingAdress: orderData?.shippingAddress,
+  user: user, 
+  totalPrice: orderData?.totalPrice,
+  paymentInfo: {
+    status: "Cash on Delivery"
+  },
+}
+
+const cashonDelivery = async () => {
+  try {
+  if(orderData){
+  const response = await axios.post(`${server}/order/create-order-cash`, orderCashonDelivery);
+  console.log("Order created successfully:", response.data);
+
+    // Clear local storage and redirect to success page
+    localStorage.setItem("cartItems", JSON.stringify([]));
+    localStorage.setItem("latestOrder", JSON.stringify({})); 
+    navigate("/order/success");
+    toast.success("Order successful!");
+      }
+      
+        
+  } catch (error) {
+      
+  }
+}
+
   return (
     <div className="w-full 800px:w-[95%] bg-[#fff] rounded-md p-5 pb-8">
       <div className="flex w-full pb-5 border-b mb-2">
@@ -152,6 +196,12 @@ const handleKhaltiPayment = async () => {
           Pay with Khalti
         </div>
       </div>
+      <div
+          className={`${styles.button} !bg-[#f63b60] text-white h-[45px] rounded-[5px] cursor-pointer text-[18px] font-[600]`}
+          onClick={cashonDelivery}
+        >
+          Cash on delivery
+        </div>
     </div>
   );
 };
