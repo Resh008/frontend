@@ -175,6 +175,7 @@ const cashonDelivery = async () => {
     localStorage.setItem("cartItems", JSON.stringify([]));
     localStorage.setItem("latestOrder", JSON.stringify({})); 
     navigate("/");
+    window.location.reload();
     toast.success("Order successful!");
       }
       

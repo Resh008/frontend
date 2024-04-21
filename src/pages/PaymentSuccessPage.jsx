@@ -76,7 +76,7 @@ const PaymentSuccessPage = () => {
   useEffect(() => {
   if(transactionData.status==="Completed"){
     handleCheckout()
-    // window.location.realod()
+    window.location.realod()
 
   } else {
     console.log("Error")

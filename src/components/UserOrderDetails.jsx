@@ -1,53 +1,45 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllOrderOfShop } from '../../redux/actions/order';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { backend_url, server } from '../../server';
+// import { getAllOrderOfShop } from '../../redux/actions/order';
+import { Link, useParams } from 'react-router-dom';
 import { MdEmail, MdPhone } from 'react-icons/md';
-import styles from '../../styles/style';
-import { toast } from 'react-toastify';
-import axios from 'axios';
+import { backend_url } from '../server';
+import styles from '../styles/style';
+import { getAllOrderOfUser } from '../redux/actions/order';
 
-const OrderDetails = () => {
+const UserOrderDetails = () => {
     const { orders, isLoading } = useSelector((state) => state.order);
     const { seller } = useSelector((state) => state.seller);
     const dispatch = useDispatch();
     const { user } = useSelector((state) => state.user)
     const [status, setStatus] = useState("");
-    const navigate = useNavigate();
 
     const { id } = useParams()
 
     useEffect(() => {
-        dispatch(getAllOrderOfShop(seller._id))
+        dispatch(getAllOrderOfUser(user._id))
     }, [dispatch])
 
     const data = orders && orders.find((item) => item._id === id);
 
-    const orderUpdateHandler = async (e) => {
-        await axios.put(`${server}/order/update-order-status/${id}`, {
-            status
-        }, { withCredentials: true }).then((res) => {
-            toast.success("Order status updated")
-            navigate('/dashboard-orders')
-        }).catch((error) => {
-            toast.error(error.response.data.message);
-            console.log(error)
-        })
+    const orderUpdateHandler = (e) => {
+        console.log("fff");
     }
 
     console.log(data)
 
     return (
         <div className="py-14 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
-            <div>
-                <div className="flex justify-end item-end space-y-2 flex-col ">
-                    <h1 className="text-3xl lg:text-4xl font-semibold leading-7 lg:leading-9  text-gray-800">Order #{data?._id?.slice(0, 10)} </h1>
-                    <p className="text-base font-medium leading-6 text-gray-600">Order Plcaed at: {data?.createdAt?.slice(0, 10)} </p>
-
-                </div>
+        <div>
+        <div className="flex justify-end item-end space-y-2 flex-col ">
+                <h1 className="text-3xl lg:text-4xl font-semibold leading-7 lg:leading-9  text-gray-800">Order #{data?._id?.slice(0, 10)} </h1>
+                <p className="text-base font-medium leading-6 text-gray-600">Order Plcaed at: {data?.createdAt?.slice(0, 10)} </p>
             </div>
-
+        </div>
+        <Link to ='/profile' onClick={window.location.reload}>
+                    <span className={`${styles.button} text-white flex justify-end items-end`}>Go back</span>
+                </Link>
+            
             <div className="mt-10 flex flex-col xl:flex-row jusitfy-center items-stretch  w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
 
                 <div className="flex flex-col justify-start items-start w-full space-y-4 md:space-y-6 xl:space-y-8">
@@ -131,46 +123,8 @@ const OrderDetails = () => {
                     </div>
                 </div>
             </div>
-
-            <br />
-            <h1 className="text-3xl lg:text-4xl font-semibold leading-7 lg:leading-9  text-gray-800">Order Status</h1>
-            <div className='flex justify-start item-start space-y-2 flex-col'>
-                <div className="mt-10 flex flex-col xl:flex-row jusitfy-start items-stretch  w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
-                    <div className="flex flex-col jusitfy-start items-start w-full space-y-4 md:space-y-6 xl:space-y-8">
-                        <div className="flex flex-row jusitfy-start items-start bg-gray-50 px-4 py-4 md:py-6 md:p-6 xl:p-8 w-full">
-                            <select value={status} onChange={(e) => setStatus(e.target.value)} className='cursor-pointer text-gray-800  bg-gray-300 outline-blue-400 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-white-200 '>
-                                {
-                                    [
-                                        "Processing",
-                                        "Shipping",
-                                        "Sent out to delivery",
-                                        "Recived",
-                                        "Delivered"
-                                    ]
-                                        .slice(
-                                            [
-                                                "Processing",
-                                                "Shipping",
-                                                "Sent out to delivery",
-                                                "Recived",
-                                                "Delivered"
-                                            ].indexOf(data?.status) + 1 // Add 1 to start from the next status
-                                        ).map((option, index) => (
-                                            <option value={option} key={index} className='cursor-pointer flex !item-start py-2 text-sm text-black-600 dark:text-gray-20'>
-                                                {option}
-                                            </option>
-                                        ))
-                                }
-                            </select>
-                            <div className='pl-10'>
-                                <button type="button" class="text-blue-700 bg-blue-100 hover:bg-blue-100 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2" onClick={orderUpdateHandler}>Update Status</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     )
 }
 
-export default OrderDetails
+export default UserOrderDetails

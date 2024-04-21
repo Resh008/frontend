@@ -18,6 +18,7 @@ import {
   CheckoutPage,
   PaymentPage,
   PaymentSuccessPage,
+  OrderDetailsPage,
 } from "./Routes/Routes.js";
 import {
   ShopDashboardPage,
@@ -86,6 +87,12 @@ const App = () => {
         <Route path="/payment-success" element={
         <ProtectedRoute>
           <PaymentSuccessPage />
+          </ProtectedRoute>
+        } />
+
+<Route path="/user/order/:id" element={
+        <ProtectedRoute>
+          <OrderDetailsPage />
           </ProtectedRoute>
         } />
 
