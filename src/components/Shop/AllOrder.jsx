@@ -6,6 +6,8 @@ import Loader from '../Layout/Loader';
 import { DataGrid } from '@mui/x-data-grid';
 import { getAllOrderOfShop } from '../../redux/actions/order';
 import { AiOutlineArrowRight } from 'react-icons/ai';
+import { RxBoxModel } from 'react-icons/rx';
+import { MdPendingActions } from 'react-icons/md';
 
 const AllOrders = () => {
 
@@ -88,7 +90,8 @@ const AllOrders = () => {
                 isLoading ? (
                     <Loader/>
                 ) : (
-                    <div className='w-full mx-8 pt-1 mt-10 bg-white'>
+                    <div className='w-full mx-8 mt-10 bg-white p-5 pt-6'>
+                      <h1 className='flex items-center justify-center pb-2  text-red-500 rounded-sm text-[32px]'><MdPendingActions size={32}/><strong className='pl-2'>All Orders</strong></h1>
                         <DataGrid
                         rows={row}
                         columns={columns}

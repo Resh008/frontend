@@ -46,6 +46,7 @@ const Checkout = () => {
                 discountPrice,
                 shippingAddress,
                 user,
+                
             }
 
             // update local storage with the updated orders array

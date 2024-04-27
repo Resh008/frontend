@@ -6,6 +6,7 @@ import { MdEmail, MdPhone } from 'react-icons/md';
 import { backend_url } from '../server';
 import styles from '../styles/style';
 import { getAllOrderOfUser } from '../redux/actions/order';
+import { VscFeedback } from 'react-icons/vsc';
 
 const UserOrderDetails = () => {
     const { orders, isLoading } = useSelector((state) => state.order);
@@ -13,6 +14,8 @@ const UserOrderDetails = () => {
     const dispatch = useDispatch();
     const { user } = useSelector((state) => state.user)
     const [status, setStatus] = useState("");
+    const [open,setOpen] = useState(false)
+
 
     const { id } = useParams()
 
@@ -34,12 +37,16 @@ const UserOrderDetails = () => {
         <div className="flex justify-end item-end space-y-2 flex-col ">
                 <h1 className="text-3xl lg:text-4xl font-semibold leading-7 lg:leading-9  text-gray-800">Order #{data?._id?.slice(0, 10)} </h1>
                 <p className="text-base font-medium leading-6 text-gray-600">Order Plcaed at: {data?.createdAt?.slice(0, 10)} </p>
+                {
+                                data?.status === "Delivered" && (
+                                    <div className={`${styles.button} flex justify-end items-end bg-blue-500 text-white border-[2px] !rounded-[10px]`}> <VscFeedback size={18}/><div className="pl-1">Write a review</div></div>
+                                )
+                }
             </div>
         </div>
         <Link to ='/profile' onClick={window.location.reload}>
-                    <span className={`${styles.button} text-white flex justify-end items-end`}>Go back</span>
+                    <span className={`${styles.button} flex justify-end items-end bg-transparent text-[#292929] border-[2px]`}>Go back</span>
                 </Link>
-            
             <div className="mt-10 flex flex-col xl:flex-row jusitfy-center items-stretch  w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
 
                 <div className="flex flex-col justify-start items-start w-full space-y-4 md:space-y-6 xl:space-y-8">

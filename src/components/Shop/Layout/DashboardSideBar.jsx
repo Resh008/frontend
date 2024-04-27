@@ -13,16 +13,16 @@ import {CiSettings} from 'react-icons/ci'
 
 const DashboardSideBar = ({ active }) => {
     return (
-        <div className='w-full h-[89vh] bg-white shadow-sm overflow-y-scroll sticky top-0 left-0 z-10'>
+        <div className='w-full h-[89vh] bg-white shadow-sm overflow-y-hidden sticky top-0 left-0 z-10'>
             {/* Single Items */}
-            <div className="w-full flex items-center p-4">
+            {/* <div className="w-full flex items-center p-4">
                 <Link to="/dashboard" className='w-full flex items-center'>
                     <RxDashboard size={30} color={`${active === 1 ? "#d73535" : "#555"}`} />
                     <h5 className={`hidden 800px:block pl-2 text-[18px] font-[400] ${active === 1 ? "text-[#d73535]" : "text-[#555]"}`}>
                         Dashboard
                     </h5>
                 </Link>
-            </div>
+            </div> */}
             {/* All Orders */}
             <div className="w-full flex items-center p-4">
                 <Link to="/dashboard-orders" className='w-full flex items-center'>
@@ -67,7 +67,7 @@ const DashboardSideBar = ({ active }) => {
                     </h5>
                 </Link>
             </div>
-            <div className="w-full flex items-center p-4">
+            {/* <div className="w-full flex items-center p-4">
                 <Link to="/dashboard-withdraw-money" className='w-full flex items-center'>
                     <GiPayMoney size={30} color={`${active === 7 ? "#d73535" : "#555"}`} />
                     <h5 className={`hidden 800px:block pl-2 text-[18px] font-[400] ${active === 7 ? "text-[#d73535]" : "text-[#555]"}`}>
@@ -82,7 +82,7 @@ const DashboardSideBar = ({ active }) => {
                         Shop Inbox
                     </h5>
                 </Link>
-            </div>
+            </div> */}
             <div className="w-full flex items-center p-4">
                 <Link to="/dashboard-coupons" className='w-full flex items-center'>
                     <AiOutlineGift size={30} color={`${active === 9 ? "#d73535" : "#555"}`} />
@@ -91,22 +91,22 @@ const DashboardSideBar = ({ active }) => {
                     </h5>
                 </Link>
             </div>
-            <div className="w-full flex items-center p-4">
+            {/* <div className="w-full flex items-center p-4">
                 <Link to="/dashboard-refunds" className='w-full flex items-center'>
                     <HiOutlineReceiptRefund size={30} color={`${active === 10 ? "#d73535" : "#555"}`} />
                     <h5 className={`hidden 800px:block pl-2 text-[18px] font-[400] ${active === 10 ? "text-[#d73535]" : "text-[#555]"}`}>
                         Refunds
                     </h5>
                 </Link>
-            </div>
-            <div className="w-full flex items-center p-4">
+            </div> */}
+            {/* <div className="w-full flex items-center p-4">
                 <Link to="/dashboard-settings" className='w-full flex items-center'>
                     <CiSettings size={30} color={`${active === 11 ? "#d73535" : "#555"}`} />
                     <h5 className={`hidden 800px:block pl-2 text-[18px] font-[400] ${active === 11 ? "text-[#d73535]" : "text-[#555]"}`}>
                         Settings
                     </h5>
                 </Link>
-            </div>
+            </div> */}
         </div>
     )
 }

@@ -64,7 +64,7 @@ const addToCartHandler = (id) => {
     if(isItemExists){
       toast.error("Item exist in your cart")
     } else {
-        if(data.stock <= 1){
+        if(data.stock < 1){
           toast.error("Oops, no more in stock");
         } else {
           const cartData = {...data, qty: count};

@@ -144,7 +144,6 @@ const OrderDetails = () => {
                                         "Processing",
                                         "Shipping",
                                         "Sent out to delivery",
-                                        "Recived",
                                         "Delivered"
                                     ]
                                         .slice(
@@ -152,7 +151,6 @@ const OrderDetails = () => {
                                                 "Processing",
                                                 "Shipping",
                                                 "Sent out to delivery",
-                                                "Recived",
                                                 "Delivered"
                                             ].indexOf(data?.status) + 1 // Add 1 to start from the next status
                                         ).map((option, index) => (
