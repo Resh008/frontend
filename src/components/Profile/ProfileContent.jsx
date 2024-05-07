@@ -10,7 +10,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import Button from '@mui/material/Button'
 import { TiDeleteOutline } from "react-icons/ti";
 import PopupPassword from "./popupPassword"; // Import the PasswordChangePopup component
-import { deleteUserAddress, updatUserAddress, updateUserAdress, updateUserInformation } from "../../redux/actions/user";
+import { deleteUserAddress, loadUser, updatUserAddress, updateUserAdress, updateUserInformation } from "../../redux/actions/user";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { RxCross1 } from 'react-icons/rx'
@@ -68,7 +68,7 @@ const ProfileContent = ({ active }) => {
         withCredentials: true,
       });
       toast.success("Avatar updated successfully");
-      window.location.reload();
+      dispatch(loadUser)
       // Reload the page or update user data as per your requirement
     } catch (error) {
       toast.error(error.response.data.message);
@@ -182,16 +182,9 @@ const ProfileContent = ({ active }) => {
       }
 
       {/* Refund Page */}
-      {
-        active === 3 && (
-          <div>
-            <AllRefundOrders />
-          </div>
-        )
-      }
       {/* Track order Page */}
       {
-        active === 5 && (
+        active === 3 && (
           <div>
             <TrackOrder />
           </div>
@@ -199,7 +192,7 @@ const ProfileContent = ({ active }) => {
       }
       {/* Change Password Page */}
       {
-        active === 6 && (
+        active === 4 && (
           <div>
             <ChangePassword />
           </div>
@@ -207,7 +200,7 @@ const ProfileContent = ({ active }) => {
       }
       {/* Address Page */}
       {
-        active === 7 && (
+        active === 5 && (
           <div>
             <Address />
           </div>
@@ -304,115 +297,82 @@ const AllOrders = () => {
   );
 };
 
+const TrackOrder = () => {
 
-const AllRefundOrders = () => {
-  const orders = [
-    {
-      _id: "7621238798172A9iie",
-      orderItems: [
-        { name: "Iphone-14 Pro max" }
-      ],
-      totalPrice: 120,
-      orderStatus: "Processing"
-    }
-  ];
+  const { user } = useSelector((state) => state.user);
+  const { orders } = useSelector((state) => state.order);
+  const dispatch = useDispatch();
 
-  const rows = orders.map((order) => ({
-    id: order._id,
-    orderStatus: order.orderStatus,
-    itemsQty: order.orderItems.length,
-    total: `Rs. ${order.totalPrice}`
-  }));
+  useEffect(() => {
+    dispatch(getAllOrderOfUser(user._id));
+  }, []);
 
+  
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
+
     {
-      field: "orderStatus", headerName: "Status", minWidth: 130, flex: 0.7, cellClassName: (params) => {
+      field: "status",
+      headerName: "Status",
+      minWidth: 130,
+      flex: 0.7,
+      cellClassName: (params) => {
         return params.value === "Delivered" ? "greenColor" : "redColor";
       },
-    },
-    { field: "itemsQty", headerName: "Items Qty", type: "number", minWidth: 130, flex: 0.7 },
-    { field: "total", headerName: "Total", type: "number", minWidth: 130, flex: 0.8 },
+    },    
     {
-      field: "_id",
-      flex: 1,
+      field: "itemsQty",
+      headerName: "Items Qty",
+      type: "number",
       minWidth: 130,
-      headerName: " ",
+      flex: 0.7,
+    },
+
+    {
+      field: "total",
+      headerName: "Total",
+      type: "number",
+      minWidth: 130,
+      flex: 0.8,
+    },
+
+    {
+      field: " ",
+      flex: 1,
+      minWidth: 150,
+      headerName: "",
       type: "number",
       sortable: false,
-      renderCell: (params) => (
-        <Link to={`/order/${params.id}`}>
-          <Button>
-            <span className="leading-[1rem]">View Details</span> <AiOutlineArrowRight size={20} />
-          </Button>
-        </Link>
-      )
-    }
-  ];
-
-  return (
-    <div className="pl-8 pt-1">
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        pageSize={10}
-        disableSelectionOnClick
-        autoHeight
-      />
-    </div>
-  );
-};
-
-
-
-const TrackOrder = () => {
-  const orders = [
-    {
-      _id: "7621238798172A9iie",
-      orderItems: [
-        { name: "Iphone-14 Pro max" }
-      ],
-      totalPrice: 120,
-      orderStatus: "Processing"
-    }
-  ];
-
-  const columns = [
-    { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
-    {
-      field: "orderStatus", headerName: "Status", minWidth: 130, flex: 0.7, cellClassName: (params) => {
-        return params.value === "Delivered" ? "greenColor" : "redColor";
+      renderCell: (params) => {
+        return (
+          <>
+            <Link to={`/user/track/order/${params.id}`}>
+              <Button>
+                <MdOutlineTrackChanges size={20} />
+              </Button>
+            </Link>
+          </>
+        );
       },
     },
-    { field: "itemsQty", headerName: "Items Qty", type: "number", minWidth: 130, flex: 0.7 },
-    { field: "total", headerName: "Total Amount", type: "number", minWidth: 130, flex: 0.8 }, // Added total field
-    {
-      field: "actions",
-      headerName: "Actions",
-      sortable: false,
-      flex: 0.8,
-      minWidth: 130,
-      renderCell: (params) => (
-        <Link to={`/order/${params.id}`}>
-          <Button className="flex items-center space-x-1">
-            <MdOutlineTrackChanges size={20} /><span>Track Order</span>
-          </Button>
-        </Link>
-      ),
-    },
   ];
 
-  const rows = orders.map((order) => ({
-    id: order._id,
-    orderStatus: order.orderStatus,
-    itemsQty: order.orderItems.length,
-    total: "Rs " + order.totalPrice, // Corrected this line
-  }));
+  const row = [];
+
+  orders &&
+  orders.forEach((item) => {
+      row.push({
+        id: item._id,
+        itemsQty: item.cart.length,
+        total: "Rs. " + item.totalPrice,
+        status: item.status,
+      });
+    });
 
   return (
     <div className="pl-8 pt-1">
       <DataGrid
-        rows={rows}
+        rows={row}
         columns={columns}
         pageSize={10}
         disableSelectionOnClick

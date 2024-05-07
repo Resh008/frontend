@@ -18,10 +18,6 @@ const ProductDetailsPage = () => {
   const [searchParam] = useSearchParams();
   const eventData = searchParam.get("isEvent")
 
-  console.log(eventData)
-
-
-
   useEffect(() => {
     if (eventData !== null) {
       const data = allEvents && allEvents.find((i) => i._id === id);

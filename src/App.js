@@ -19,6 +19,7 @@ import {
   PaymentPage,
   PaymentSuccessPage,
   OrderDetailsPage,
+  TrackOrderPage,
 } from "./Routes/Routes.js";
 import {
   ShopDashboardPage,
@@ -30,6 +31,7 @@ import {
   ShopPreviewPage,
   ShopAllOrders,
   ShopOrderDetails,
+  ShopSettingsPage,
 } from "./Routes/ShopRoutes";
 import { ToastContainer, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -96,6 +98,12 @@ const App = () => {
           </ProtectedRoute>
         } />
 
+<Route path="/user/track/order/:id" element={
+        <ProtectedRoute>
+          <TrackOrderPage />
+          </ProtectedRoute>
+        } />
+
         <Route
               path="/payment"
               element={
@@ -112,6 +120,14 @@ const App = () => {
           element={
             <SellerProtectedRoute>
               <ShopHomePage />
+            </SellerProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <SellerProtectedRoute>
+              <ShopSettingsPage />
             </SellerProtectedRoute>
           }
         />

@@ -9,10 +9,11 @@ import Magnifier from "react-magnifier";
 import { toast } from 'react-toastify';
 import { addToWishList, removeFromWishList } from '../../redux/actions/wishList';
 import { addToCart } from '../../redux/actions/cart';
+import Ratings from './Ratings';
 
 const ProductDetails = ({ data }) => {
-  const {cart} = useSelector((state)=>state.cart)
-  const {wishList} = useSelector((state)=>state.wishList)
+  const { cart } = useSelector((state) => state.cart)
+  const { wishList } = useSelector((state) => state.wishList)
   const [count, setCount] = useState(1);
   const [click, setClick] = useState(false);
   const [select, setSelect] = useState(1);
@@ -24,13 +25,13 @@ const ProductDetails = ({ data }) => {
 
   useEffect(() => {
     dispatch(getAllProductsShop(data && data?.shop._id));
-    if(wishList && wishList.find((i)=>i._id === data._id)){
+    if (wishList && wishList.find((i) => i._id === data._id)) {
       setClick(true)
-  } else {
+    } else {
       setClick(false)
-  }
-  
-  }, [dispatch, data,wishList]);
+    }
+
+  }, [dispatch, data, wishList]);
 
   const decrementCount = () => {
     if (count > 1) {
@@ -51,29 +52,31 @@ const ProductDetails = ({ data }) => {
     setClick(!click);
     dispatch(removeFromWishList(data));
     toast.success("Removed from Wish list")
-}
+  }
 
-const addToWishListHandler = (data) => {
+  const addToWishListHandler = (data) => {
     setClick(!click);
     dispatch(addToWishList(data));
     toast.success("Added to Wish list")
-}
+  }
 
-const addToCartHandler = (id) => {
+  const addToCartHandler = (id) => {
     const isItemExists = cart && cart.find((i) => i._id === id);
-    if(isItemExists){
+    if (isItemExists) {
       toast.error("Item exist in your cart")
     } else {
-        if(data.stock < 1){
-          toast.error("Oops, no more in stock");
-        } else {
-          const cartData = {...data, qty: count};
-          dispatch(addToCart(cartData));
-          toast.success("Item added to cart")
-        }
+      if (data.stock < 1) {
+        toast.error("Oops, no more in stock");
+      } else {
+        const cartData = { ...data, qty: count };
+        dispatch(addToCart(cartData));
+        toast.success("Item added to cart")
+      }
     }
 
   }
+
+  const totalReviewsLength = products && products.reduce((acc, product)=> acc + product.reviews.length, 0);
 
   return (
     <div className="bg-white">
@@ -168,7 +171,7 @@ const addToCartHandler = (id) => {
                 </div>
                 <div
                   className={`${styles.button} !mt-6 !rounded !h-11 flex items-center`}
-                onClick={() => addToCartHandler(data._id)}
+                  onClick={() => addToCartHandler(data._id)}
                 >
                   <span className="text-white flex items-center">
                     Add to cart <AiOutlineShoppingCart className="ml-1" />
@@ -189,17 +192,17 @@ const addToCartHandler = (id) => {
                       </h3>
                     </Link>
                     <h5 className="pb-3 text-[15px]">
-                      (4/5) Ratings
+                      {data.rating}/5 Ratings
                     </h5>
                   </div>
-                  <div
+                  {/* <div
                     className={`${styles.button} bg-[#6443d1] mt-4 !rounded !h-11`}
                     onClick={handleMessageSubmit}
                   >
                     <span className="text-white flex items-center">
                       Send Message <AiOutlineMessage className="ml-1" />
                     </span>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
@@ -207,7 +210,7 @@ const addToCartHandler = (id) => {
           <ProductDetailsInfo
             data={data}
             products={products}
-          // totalReviewsLength={totalReviewsLength}
+          totalReviewsLength={totalReviewsLength}
           // averageRating={averageRating}
           />
           <br />
@@ -218,7 +221,7 @@ const addToCartHandler = (id) => {
   );
 };
 
-const ProductDetailsInfo = ({ data, products }) => {
+const ProductDetailsInfo = ({ data, products, totalReviewsLength }) => {
   const [active, setActive] = useState(1);
   return (
     <div className=' bg-[#f5f6fb] px-3 800px:px-10 py-2 rounded'>
@@ -273,10 +276,33 @@ const ProductDetailsInfo = ({ data, products }) => {
 
       {
         active === 2 ? (
-          <div className="w-full justify-center min-h-[40vh] flex items-center">
-            <p>
-              No Reviews yet!
-            </p>
+          <div className="w-full py-3 min-h-[40vh] flex flex-col items-center overflow-y-scroll">
+            {data && data.reviews && data.reviews.map((item, index) => {
+              return (
+                <div className="w-full flex my-2" key={index}>
+                  <img src={`${backend_url}${item.user.avatar.url}`} alt="" 
+                    className='w-[50px] h-[50px] rounded-full' />
+                    <div className="pl-5'">
+                      <div className="w-full flex items-center">
+                      <h1 className='pr-2'><strong>{item.user.name}</strong></h1>
+                      <Ratings rating = {data.rating}/>
+                      </div>
+                      <p>
+                      {item.comment}
+                      </p>
+                    </div>
+
+                </div>
+              );
+            })}
+
+
+
+            {
+              data && data.reviews.length === 0 && (
+                <h5>No Reviews Yet</h5>
+              )
+            }
           </div>
         ) : null
       }
@@ -285,25 +311,25 @@ const ProductDetailsInfo = ({ data, products }) => {
         active === 3 && (
           <div className="w-full block 800px:flex p-5">
             <div className="w-full 800px:w-[50%]">
-              <Link to = {`/shop/preview/${data.shop._id}`}>
-              <div className="flex items-center">
-                <img
-                  src={`${backend_url}${data?.shop?.avatar.url}`}
-                  alt=""
-                  className='w-[50px] h-[50px] rounded-full' />
+              <Link to={`/shop/preview/${data.shop._id}`}>
+                <div className="flex items-center">
+                  <img
+                    src={`${backend_url}${data?.shop?.avatar.url}`}
+                    alt=""
+                    className='!w-[60px] !h-[60px] rounded-full' />
 
-                <div className='pl-3'>
-                  <Link to = {`/shop/preview/${data.shop._id}`}>
-                  <h3 className={`${styles.shop_name}`}>
-                    {data.shop.name}
-                  </h3>
-                  </Link>
+                  <div className='pl-3'>
+                    <Link to={`/shop/preview/${data.shop._id}`}>
+                      <h3 className={`${styles.shop_name}`}>
+                        {data.shop.name}
+                      </h3>
+                    </Link>
 
-                  <h5 className='pb-2 text-[15px]'>
-                    3/5 Ratings
-                  </h5>
+                    <h5 className='pb-2 text-[15px]'>
+                      {data.rating}/5 Ratings
+                    </h5>
+                  </div>
                 </div>
-              </div>
               </Link>
               <p className='pt-2'>
                 {data.shop.description}
@@ -318,7 +344,7 @@ const ProductDetailsInfo = ({ data, products }) => {
                   Total products <span className='font-[500]'>{products && products.length}</span>
                 </h5>
                 <h5 className="font-[600]">
-                  Total Reviews <span className='font-[500]'>32</span>
+                  Total Reviews <span className='font-[500]'>{totalReviewsLength}</span>
                 </h5>
                 <Link to="/">
                   <div

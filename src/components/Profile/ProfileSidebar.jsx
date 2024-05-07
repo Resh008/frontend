@@ -52,25 +52,29 @@ const ProfileSidebar = ({ setActive, active }) => {
           Orders
         </span>
       </div>
+ 
       <div
         className="flex items-center cursor-pointer w-full mb-8"
         onClick={() => {
           setActive(3);
         }}
       >
-        <HiReceiptRefund size={20} color={active === 3 ? "red" : ""} />
+        <MdOutlineTrackChanges size={20} color={active === 3 ? "red" : ""} />
         <span className={`pl-3 ${active === 3 ? " !text-[red]" : ""} 800px:block hidden`}>
-          Refunds
+          Track Order
         </span>
       </div>
+
       <div
         className="flex items-center cursor-pointer w-full mb-8"
         onClick={() => {
-          setActive(4) || navigate("/inbox");
+          setActive(4);
         }}
       >
-        <AiOutlineMessage size={20} color={active === 4 ? "red" : ""} />
-        <span className={`pl-3 ${active === 4 ? " !text-[red]" : ""} 800px:block hidden`}>Inbox</span>
+        <RiLockPasswordLine size={20} color={active === 4 ? "red" : ""} />
+        <span className={`pl-3 ${active === 4 ? " !text-[red]" : ""} 800px:block hidden`}>
+          Change Password
+        </span>
       </div>
 
       <div
@@ -79,43 +83,19 @@ const ProfileSidebar = ({ setActive, active }) => {
           setActive(5);
         }}
       >
-        <MdOutlineTrackChanges size={20} color={active === 5 ? "red" : ""} />
-        <span className={`pl-3 ${active === 5 ? " !text-[red]" : ""} 800px:block hidden`}>
-          Track Order
-        </span>
-      </div>
-
-      <div
-        className="flex items-center cursor-pointer w-full mb-8"
-        onClick={() => {
-          setActive(6);
-        }}
-      >
-        <RiLockPasswordLine size={20} color={active === 6 ? "red" : ""} />
-        <span className={`pl-3 ${active === 6 ? " !text-[red]" : ""} 800px:block hidden`}>
-          Change Password
-        </span>
-      </div>
-
-      <div
-        className="flex items-center cursor-pointer w-full mb-8"
-        onClick={() => {
-          setActive(7);
-        }}
-      >
-        <TbAddressBook size={20} color={active === 7 ? "red" : ""} />
-        <span className={`pl-3 ${active === 7 ? " !text-[red]" : "" } 800px:block hidden`}>
+        <TbAddressBook size={20} color={active === 5 ? "red" : ""} />
+        <span className={`pl-3 ${active === 5 ? " !text-[red]" : "" } 800px:block hidden`}>
           Address
         </span>
       </div>
       <div
         className="flex items-center cursor-pointer w-full mb-8"
         onClick={() => {
-          setActive(8) || logoutHandler();
+          setActive(5) || logoutHandler();
         }}
       >
-        <HiOutlineLogout size={20} color={active === 8 ? "red" : ""} />
-        <span className={`pl-3 ${active === 8 ? "!text-[red]" : ""} 800px:block hidden`}>
+        <HiOutlineLogout size={20} color={active === 6 ? "red" : ""} />
+        <span className={`pl-3 ${active === 6 ? "!text-[red]" : ""} 800px:block hidden`}>
           Logout
         </span>
       </div>

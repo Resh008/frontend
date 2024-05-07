@@ -99,14 +99,14 @@ const DashboardSideBar = ({ active }) => {
                     </h5>
                 </Link>
             </div> */}
-            {/* <div className="w-full flex items-center p-4">
-                <Link to="/dashboard-settings" className='w-full flex items-center'>
-                    <CiSettings size={30} color={`${active === 11 ? "#d73535" : "#555"}`} />
-                    <h5 className={`hidden 800px:block pl-2 text-[18px] font-[400] ${active === 11 ? "text-[#d73535]" : "text-[#555]"}`}>
+            <div className="w-full flex items-center p-4">
+                <Link to="/settings" className='w-full flex items-center'>
+                    <CiSettings size={30} color={`${active === 10 ? "#d73535" : "#555"}`} />
+                    <h5 className={`hidden 800px:block pl-2 text-[18px] font-[400] ${active === 10 ? "text-[#d73535]" : "text-[#555]"}`}>
                         Settings
                     </h5>
                 </Link>
-            </div> */}
+            </div>
         </div>
     )
 }

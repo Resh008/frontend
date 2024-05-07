@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 // import { getAllOrderOfShop } from '../../redux/actions/order';
-import { Link, useParams } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { MdEmail, MdPhone } from 'react-icons/md';
-import { backend_url } from '../server';
+import { backend_url, server } from '../server';
 import styles from '../styles/style';
 import { getAllOrderOfUser } from '../redux/actions/order';
 import { VscFeedback } from 'react-icons/vsc';
+import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const UserOrderDetails = () => {
     const { orders, isLoading } = useSelector((state) => state.order);
@@ -14,7 +17,12 @@ const UserOrderDetails = () => {
     const dispatch = useDispatch();
     const { user } = useSelector((state) => state.user)
     const [status, setStatus] = useState("");
-    const [open,setOpen] = useState(false)
+    const [open, setOpen] = useState(false)
+    const [selectedItem, setSelectedItem] = useState(null)
+    const [rating, setRating] = useState(1);
+    const[comment,setComment] = useState("")
+    const navigate = useNavigate();
+
 
 
     const { id } = useParams()
@@ -29,24 +37,91 @@ const UserOrderDetails = () => {
         console.log("fff");
     }
 
+    const reviewHandler = async (e) => {
+        if(comment === ""){
+            toast.error("Write something in comment")
+        } else {
+            await axios.put(`${server}/products/create-review`,{
+                user,
+                rating,
+                comment,
+                productId:selectedItem?._id,
+                orderId:id,
+            },{withCredentials:true})
+            .then((res)=>
+            {
+                toast.success("Review Added")
+                setComment("")
+                setRating(1)
+                setOpen(false)
+                navigate('/profile')
+            })
+        }
+        }
+
     console.log(data)
 
     return (
         <div className="py-14 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
-        <div>
-        <div className="flex justify-end item-end space-y-2 flex-col ">
-                <h1 className="text-3xl lg:text-4xl font-semibold leading-7 lg:leading-9  text-gray-800">Order #{data?._id?.slice(0, 10)} </h1>
-                <p className="text-base font-medium leading-6 text-gray-600">Order Plcaed at: {data?.createdAt?.slice(0, 10)} </p>
-                {
-                                data?.status === "Delivered" && (
-                                    <div className={`${styles.button} flex justify-end items-end bg-blue-500 text-white border-[2px] !rounded-[10px]`}> <VscFeedback size={18}/><div className="pl-1">Write a review</div></div>
-                                )
-                }
+            <div>
+                <div className="flex justify-end item-end space-y-2 flex-col ">
+                    <h1 className="text-3xl lg:text-4xl font-semibold leading-7 lg:leading-9  text-gray-800">Order #{data?._id?.slice(0, 10)} </h1>
+                    <p className="text-base font-medium leading-6 text-gray-600">Order Plcaed at: {data?.createdAt?.slice(0, 10)} </p>
+                </div>
             </div>
-        </div>
-        <Link to ='/profile' onClick={window.location.reload}>
-                    <span className={`${styles.button} flex justify-end items-end bg-transparent text-[#292929] border-[2px]`}>Go back</span>
-                </Link>
+
+            {data && data?.cart.map((item, index) => {
+          return(
+            <div className="w-full flex items-start">
+            {item.isReviewed ? null : (
+            <div className={`${styles.button} flex justify-end items-end bg-blue-500 text-white border-[2px] !rounded-[10px]`} onClick={() => setOpen(true) || setSelectedItem(item)}> <VscFeedback size={18} /><div className="pl-1">Write a review</div></div>
+            )
+            }
+          </div>
+          )
+         })}
+
+
+            {
+                // review popupo
+                open && (
+                    <div className="w-full fixed top-0 left-0 h-screen bg-[#000000a9]  py-6 flex flex-col justify-center sm:py-12">
+                        <div class="py-3 sm:max-w-xl sm:mx-auto">
+                            <div class="bg-white min-w-1xl flex flex-col rounded-xl shadow-lg">
+                                <div class="px-12 py-5">
+                                    <h2 class="text-gray-800 text-3xl font-semibold">Your opinion matters to us!</h2>
+                                </div>
+                                <div class="bg-white w-full flex flex-col items-center">
+                                    <div class="flex flex-col items-center py-6 space-y-3">
+                                        <span class="text-lg text-gray-800">Give product a rating out 5</span>
+                                        <div class="flex space-x-3">
+                                            {[1, 2, 3, 4, 5].map((i) => 
+                                                rating >= i ? (
+                                                    <AiFillStar key={i} className='mr-1 cursor-pointer' color='rgb(246,186,0)' size={25} onClick={() => setRating(i)} />
+                                                ) : (
+                                                    <AiOutlineStar key={i} className='mr-1 cursor-pointer' color='rgb(246,186,0)' size={25} onClick={() => setRating(i)} />
+                                                )
+                                            )}
+
+                                        </div>
+                                    </div>
+                                    <div class="w-3/4 flex flex-col">
+                                        <textarea required rows="3" class="p-4 text-gray-500 rounded-xl resize-none bg-gray-200" placeholder='Write review...' value={comment} onChange={(e)=>setComment(e.target.value)}></textarea>
+                                        <button class="py-3 my-8 text-lg bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl text-white"  onClick={reviewHandler}>Rate now</button>
+                                    </div>
+                                </div>
+                                <div class="h-20 flex items-center justify-center cursor-pointer" onClick={() => setOpen(false)}>
+                                    <a class="text-gray-600">Maybe later</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                )
+            }
+            <Link to='/profile' onClick={window.location.reload}>
+                <span className={`${styles.button} flex justify-end items-end bg-transparent text-[#292929] border-[2px]`}>Go back</span>
+            </Link>
             <div className="mt-10 flex flex-col xl:flex-row jusitfy-center items-stretch  w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
 
                 <div className="flex flex-col justify-start items-start w-full space-y-4 md:space-y-6 xl:space-y-8">

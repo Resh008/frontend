@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addToWishList, removeFromWishList } from '../../../redux/actions/wishList';
 import { addToCart } from '../../../redux/actions/cart';
 import { toast } from 'react-toastify';
+import Ratings from '../../Products/Ratings';
 
 const ProductCard = ({ data }) => {
   const {cart} = useSelector((state)=>state.cart)
@@ -73,41 +74,23 @@ const ProductCard = ({ data }) => {
             </h4>
 
             <div className="flex">
-                <AiFillStar
-                    className="mr-2 cursor-pointer"
-                    size={20}
-                    color='#f6ba00' />
-                <AiFillStar
-                    className="mr-2 cursor-pointer"
-                    size={20}
-                    color='#f6ba00' />
-                <AiFillStar
-                    className="mr-2 cursor-pointer"
-                    size={20}
-                    color='#f6ba00' />
-                <AiFillStar
-                    className="mr-2 cursor-pointer"
-                    size={20}
-                    color='#f6ba00' />
-                <AiOutlineStar
-                    className="mr-2 cursor-pointer"
-                    size={20}
-                    color='#f6ba00' />
+            <Ratings rating = {data.rating}/>
+
             </div>
 
             <div className='py-2 flex items-center justify-between'>
                 <div className='flex'>
                     {/* Discounted price withou katings */}
                     <h5 className={`${styles.productDiscountPrice}`}>
-                        Rs.{data.discountPrice}
+                        Rs.{data?.discountPrice}
                     </h5>
                     {/* Kaings   wawla price */}
                     <h4 className={`${styles.price}`}>
-                        {data.discountPrice !==  data.orginalPrice ? "Rs." + data.orginalPrice : null}
+                        {data?.discountPrice !==  data?.orginalPrice ? "Rs." + data?.orginalPrice : null}
                     </h4>
                 </div>
                 <span className='font-[400] text-[17px] text-[#68d284]'>
-                    {data.sold_out} sold
+                    {data?.sold_out} sold
                 </span>
             </div>
             </Link>
