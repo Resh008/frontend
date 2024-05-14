@@ -141,3 +141,28 @@ export const updateUserInformation =
       });
     }
   }
+
+// get all users --- admin
+export const getAllUsers = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: "getAllUsersAdminRequest",
+    });
+
+    const { data } = await axios.get(`${server}/user/admin-all-users`, {
+      withCredentials: true,
+    });
+
+    console.log(data.users)
+
+    dispatch({
+      type: "getAllUsersAdminSuccess",
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: "getAllUsersAdminFailed",
+      payload: error.response.data.message,
+    });
+  }
+};

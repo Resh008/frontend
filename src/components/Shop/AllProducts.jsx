@@ -41,7 +41,7 @@ const AllProducts = () => {
                 const product_name = d.replace(/\s+/g,"-");
                 return(
                     <>
-                        <Link to={`/products/${product_name}`}>
+                        <Link to={`/products/${params.id}`}>
                             <Button>
                                 <AiOutlineEye size={20} />
                             </Button>

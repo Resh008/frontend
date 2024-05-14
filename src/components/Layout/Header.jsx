@@ -54,11 +54,11 @@ const Header = ({ activeHeading }) => {
 
   return (
     <>
-      <div className={`${styles.section}`}>
-        <div className="hidden h-[50px] 800px:my-[20px] 800px:flex items-center justify-between">
+      <div className={`${styles.section}` }>
+        <div className="hidden h-[50px] 800px:my-[20px] 800px:flex items-center justify-between ">
           <div className='w-[100px] h-full pb-1 '>
             <Link to="/"  className='pb-[25px]'>
-              <img src="https://cdn.discordapp.com/attachments/749319878003130380/1231484518498832466/Untitled_design_26.png?ex=66372055&is=6624ab55&hm=2814164c24dee9fd6370a4974f179d17ddb233bd5f750105fda23b91ad76255d" alt='logo' />
+            <img src={`${backend_url}almadi.png`} alt=""  className='w-[200px] h-[50px]'/>
             </Link>
           </div>
 

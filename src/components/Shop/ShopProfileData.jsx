@@ -6,6 +6,7 @@ import ProductCard from "../Route/ProductCard/ProductCard";
 import Ratings from "../Products/Ratings";
 import { getAllEventsShop } from "../../redux/actions/event";
 import styles from "../../styles/style";
+import { backend_url } from "../../server";
 
 const ShopProfileData = ({ isOwner }) => {
   const { products } = useSelector((state) => state.products);
@@ -20,8 +21,8 @@ const ShopProfileData = ({ isOwner }) => {
 
   const [active, setActive] = useState(1);
 
-  const allReviews =
-    products && products.map((product) => product.reviews).flat();
+  const allReviews = products && products.map((product) => product.reviews).flat();
+  console.log(allReviews)
 
   return (
     <div className="w-full">
@@ -113,17 +114,17 @@ const ShopProfileData = ({ isOwner }) => {
             allReviews.map((item, index) => (
               <div className="w-full flex my-4">
                 <img
-                  src={`${item.user.avatar?.url}`}
+                  src={`${backend_url}${item.user?.avatar.url}`}
                   className="w-[50px] h-[50px] rounded-full"
                   alt=""
                 />
                 <div className="pl-2">
                   <div className="flex w-full items-center">
-                    <h1 className="font-[600] pr-2">{item.user.name}</h1>
+                    <h1 className="font-[600] pr-2">{item.user?.name}</h1>
                     <Ratings rating={item.rating} />
                   </div>
                   <p className="font-[400] text-[#000000a7]">{item?.comment}</p>
-                  <p className="text-[#000000a7] text-[14px]">{"2days ago"}</p>
+                  <p className="text-[#000000a7] text-[14px]">{item.createdAt?.slice(0,10) || "2 Days Ago"}</p>
                 </div>
               </div>
             ))}

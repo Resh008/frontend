@@ -98,7 +98,7 @@ const ShopSettgings = () => {
                                     <input type="name" placeholder={seller?.phoneNumber} value={phoneNumber} onChange={(e)=>setPhoneNumber(e.target.value)} className="password-input form-input block w-full border border-gray-300 rounded-md shadow-sm " />
                                 </div>
                                 <div className="flex justify-center">
-                                    <button type="submit" value ="Update Shop" className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-300">Update Password</button>
+                                    <button type="submit" value ="Update Shop" className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-300">Update Shop</button>
                                 </div>
                                 <div className="flex justify-center">
                                     <Link to = {`/shop/${id}`} className='cursor-pointer'>

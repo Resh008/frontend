@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import styles from '../../styles/style';
 import { AiFillHeart, AiOutlineHeart, AiOutlineMessage, AiOutlineShoppingCart } from 'react-icons/ai';
-import { backend_url } from '../../server';
+import { backend_url, server } from '../../server';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllProductsShop } from '../../redux/actions/product';
 import Magnifier from "react-magnifier";
@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import { addToWishList, removeFromWishList } from '../../redux/actions/wishList';
 import { addToCart } from '../../redux/actions/cart';
 import Ratings from './Ratings';
+import axios from 'axios';
 
 const ProductDetails = ({ data }) => {
   const { cart } = useSelector((state) => state.cart)
@@ -21,6 +22,8 @@ const ProductDetails = ({ data }) => {
   const { products } = useSelector((state) => state.products);
   const { id } = useParams();
   const dispatch = useDispatch();
+  const { isAuthenticated, user } = useSelector((state) => state.user);
+  const {seller} = useSelector((state) =>state.seller);
 
 
   useEffect(() => {
@@ -43,10 +46,6 @@ const ProductDetails = ({ data }) => {
     setCount(count + 1)
   }
 
-  const handleMessageSubmit = () => {
-    navigate("/inbox?conversation=Hello This is a pasal which is not yet a pasal")
-
-  }
 
   const removeFromWishListHandler = (data) => {
     setClick(!click);
@@ -76,7 +75,9 @@ const ProductDetails = ({ data }) => {
 
   }
 
-  const totalReviewsLength = products && products.reduce((acc, product)=> acc + product.reviews.length, 0);
+  console.log(data)
+
+  const totalReviewsLength = products && products.reduce((acc, product) => acc + product.reviews.length, 0);
 
   return (
     <div className="bg-white">
@@ -192,17 +193,9 @@ const ProductDetails = ({ data }) => {
                       </h3>
                     </Link>
                     <h5 className="pb-3 text-[15px]">
-                      {data.rating}/5 Ratings
+                    {!data.rating ? "Not reviwed" : data.rating + '/5 Ratings'}
                     </h5>
                   </div>
-                  {/* <div
-                    className={`${styles.button} bg-[#6443d1] mt-4 !rounded !h-11`}
-                    onClick={handleMessageSubmit}
-                  >
-                    <span className="text-white flex items-center">
-                      Send Message <AiOutlineMessage className="ml-1" />
-                    </span>
-                  </div> */}
                 </div>
               </div>
             </div>
@@ -210,7 +203,7 @@ const ProductDetails = ({ data }) => {
           <ProductDetailsInfo
             data={data}
             products={products}
-          totalReviewsLength={totalReviewsLength}
+            totalReviewsLength={totalReviewsLength}
           // averageRating={averageRating}
           />
           <br />
@@ -280,17 +273,17 @@ const ProductDetailsInfo = ({ data, products, totalReviewsLength }) => {
             {data && data.reviews && data.reviews.map((item, index) => {
               return (
                 <div className="w-full flex my-2" key={index}>
-                  <img src={`${backend_url}${item.user.avatar.url}`} alt="" 
+                  <img src={`${backend_url}${item.user.avatar.url}`} alt=""
                     className='w-[50px] h-[50px] rounded-full' />
-                    <div className="pl-5'">
-                      <div className="w-full flex items-center">
+                  <div className="pl-5'">
+                    <div className="w-full flex items-center">
                       <h1 className='pr-2'><strong>{item.user.name}</strong></h1>
-                      <Ratings rating = {data.rating}/>
-                      </div>
-                      <p>
-                      {item.comment}
-                      </p>
+                      <Ratings rating={data.rating} />
                     </div>
+                    <p>
+                      {item.comment}
+                    </p>
+                  </div>
 
                 </div>
               );

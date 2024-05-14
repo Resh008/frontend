@@ -32,7 +32,10 @@ import {
   ShopAllOrders,
   ShopOrderDetails,
   ShopSettingsPage,
+  ShopWithDrawMoneyPage,
+  
 } from "./Routes/ShopRoutes";
+import {AdminDashboardpage,AdminDashboardUserPage,AdminDashboardSellersPage,AdminDashboardOrdersPage,AdminDashboardProductsPage,AdminDashboardWithDrawRequestPage} from "./Routes/AdminRoutes.js"
 import { ToastContainer, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 //import { server } from './server.js';
@@ -45,6 +48,7 @@ import { ShopHomePage } from "./ShopRoutes.js";
 import SellerProtectedRoute from "./Routes/SellerProtectedRoute.js";
 import { getAllProducts } from "./redux/actions/product.js";
 import { getAllEvents } from "./redux/actions/event.js";
+import ProtectedAdminRoute from "./Routes/ProtectedAdminRoute.js";
 
 const App = () => {
   useEffect(() => {
@@ -131,6 +135,14 @@ const App = () => {
             </SellerProtectedRoute>
           }
         />
+          <Route
+          path="/dashboard-withdraw-money"
+          element={
+            <SellerProtectedRoute>
+              <ShopWithDrawMoneyPage />
+            </SellerProtectedRoute>
+          }
+        />
         <Route path="/shop/preview/:id" element={<ShopPreviewPage />} />
         <Route
           path="/dashboard"
@@ -201,6 +213,60 @@ const App = () => {
             </SellerProtectedRoute>
           }
         />
+
+
+        {/* Admin Routes */}
+
+        <Route
+          path="/admin"
+          element={
+            <ProtectedAdminRoute>
+          <AdminDashboardpage/>
+          </ProtectedAdminRoute>
+          }
+        />
+        <Route
+          path="/admin-users"
+          element={
+            <ProtectedAdminRoute>
+          <AdminDashboardUserPage/>
+          </ProtectedAdminRoute>
+          }
+        />
+                <Route
+          path="/admin-sellers"
+          element={
+            <ProtectedAdminRoute>
+          <AdminDashboardSellersPage/>
+          </ProtectedAdminRoute>
+          }
+        />
+                          <Route
+            path="/admin-orders"
+            element={
+              <ProtectedAdminRoute>
+            <AdminDashboardOrdersPage/>
+            </ProtectedAdminRoute>
+            }
+          />
+
+<Route
+            path="/admin-products"
+            element={
+              <ProtectedAdminRoute>
+            <AdminDashboardProductsPage/>
+            </ProtectedAdminRoute>
+            }
+          />
+          <Route
+            path="/admin-request-withdraw"
+            element={
+              <ProtectedAdminRoute>
+            <AdminDashboardWithDrawRequestPage/>
+            </ProtectedAdminRoute>
+            }
+          />
+
         </Routes>
 
       <ToastContainer

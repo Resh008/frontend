@@ -2,7 +2,7 @@ import { createReducer } from "@reduxjs/toolkit";
 
 const initialState = {
   isLoading: false,
-  orders: [], // Changed from product to orders
+  adminOrders: [], // Separate state slice for admin orders
   error: null,
 };
 
@@ -31,5 +31,21 @@ export const orderReducer = createReducer(initialState, (builder) => {
     .addCase('getAllOrdersShopFailed', (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
+    })
+    //get all order for admin
+    .addCase('getAllOrdersAdminRequest', (state) => {
+      state.isLoading = true;
+    })
+    .addCase('getAllOrdersAdminSuccess', (state, action) => {
+      state.isLoading = false;
+      state.adminOrders = action.payload.order;
+      state.success = true;
+    })
+    .addCase('getAllOrdersAdminFailed', (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    })
+    .addCase('clearErrors',(state,action) => {
+      state.error = null;
     })
 });

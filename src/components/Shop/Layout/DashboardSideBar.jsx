@@ -67,15 +67,15 @@ const DashboardSideBar = ({ active }) => {
                     </h5>
                 </Link>
             </div>
-            {/* <div className="w-full flex items-center p-4">
+             <div className="w-full flex items-center p-4">
                 <Link to="/dashboard-withdraw-money" className='w-full flex items-center'>
-                    <GiPayMoney size={30} color={`${active === 7 ? "#d73535" : "#555"}`} />
-                    <h5 className={`hidden 800px:block pl-2 text-[18px] font-[400] ${active === 7 ? "text-[#d73535]" : "text-[#555]"}`}>
+                    <GiPayMoney size={30} color={`${active === 11 ? "#d73535" : "#555"}`} />
+                    <h5 className={`hidden 800px:block pl-2 text-[18px] font-[400] ${active === 11? "text-[#d73535]" : "text-[#555]"}`}>
                         Withdraw Money
                     </h5>
                 </Link>
             </div>
-            <div className="w-full flex items-center p-4">
+            {/* <div className="w-full flex items-center p-4">
                 <Link to="/dashboard-messages" className='w-full flex items-center'>
                     <BiMessageSquareDetail size={30} color={`${active === 8 ? "#d73535" : "#555"}`} />
                     <h5 className={`hidden 800px:block pl-2 text-[18px] font-[400] ${active === 8 ? "text-[#d73535]" : "text-[#555]"}`}>

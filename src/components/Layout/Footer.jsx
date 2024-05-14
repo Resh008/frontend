@@ -91,33 +91,22 @@ const Footer = () => {
                     ))}
                 </ul>
 
-                <ul className="text-center sm:text-start">
-                    <h1 className="mb-1 font-semibold">Support</h1>
-                    {footerSupportLinks.map((link, index) => (
-                        <li key={index}>
-                            <Link
-                                className="text-gray-400 hover:text-teal-400 duration-300
-                   text-sm cursor-pointer leading-6"
-                                to={link.link}
-                            >
-                                {link.name}
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
+
             </div>
 
             <div
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10
          text-center pt-2 text-gray-400 text-sm pb-8"
             >
-                <span>© 2024 Resh Bikram Bhattarai. All rights reserved.</span>
+                <span>© 2024 Resh Bikram Bhattarai | 2227741 |  All rights reserved.</span>
                 <span>Terms · Privacy Policy</span>
                 <div className="sm:block flex items-center justify-center w-full">
                     <img
-                        src="https://esewa.com.np/common/images/esewa_logo.png"
+                        src="https://web.khalti.com/static/img/logo1.png"
                         alt=""
+                        className="filter white brightness-200 w-[150px] h-full"
                     />
+                    
                 </div>
             </div>
         </div>

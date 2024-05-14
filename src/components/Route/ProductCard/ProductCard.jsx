@@ -10,7 +10,7 @@ import { addToCart } from '../../../redux/actions/cart';
 import { toast } from 'react-toastify';
 import Ratings from '../../Products/Ratings';
 
-const ProductCard = ({ data }) => {
+const ProductCard = ({ data, isReview }) => {
   const {cart} = useSelector((state)=>state.cart)
     const {wishList} = useSelector((state)=>state.wishList)
     const [click, setClick] = useState(false);
@@ -59,6 +59,7 @@ const ProductCard = ({ data }) => {
         <><div className='w-full h-[370px] bg-white rounded-lg shadow-sm p-3 relative cursor-pointer'>
         <div className='flex justify-end'>
         </div>
+        <Link to={`${isReview===true ? `/products/${data._id}?i` : `/products/${data._id}`}`}>
         <img
             src={data.images && `${backend_url}${data.images[0]}`}
             alt=""
@@ -68,7 +69,7 @@ const ProductCard = ({ data }) => {
         <Link to={`/shop/preview/${data.shop._id}`}>
             <h5 className={`${styles.shop_name}`}>{data.shop.name}</h5>
         </Link>
-        <Link to={`/products/${data._id}`}>
+        <Link to={`${isReview===true ? `/products/${data._id}?i` : `/products/${data._id}`}`}>
             <h4 className='pb-3 font-[500]'>
                 {data.name.length > 40 ? data.name.slice(0, 40) + "..." : data.name}
             </h4>
@@ -93,6 +94,7 @@ const ProductCard = ({ data }) => {
                     {data?.sold_out} sold
                 </span>
             </div>
+            </Link>
             </Link>
 
             {/* Side Options */}
