@@ -32,13 +32,7 @@ const SellerActivationPage = () => {
             justifyContent: "center",
             alignItems: "center",
         }}>
-            {
-                error ? (
-                    <p>Your token has expired!</p>
-                ) : (
-                    <p>Your account has been created</p>
-                )
-            }
+            Your account has been created
         </div>
     );
 }

@@ -187,20 +187,24 @@ const cashonDelivery = async () => {
 
   return (
     <div className="w-full 800px:w-[95%] bg-[#fff] rounded-md p-5 pb-8">
-      <div className="flex w-full pb-5 border-b mb-2">
+      <div className="flex justify-center w-full pb-5 mb-2">
         <div
-          className={`${styles.button} !bg-[#f63b60] text-white h-[45px] rounded-[5px] cursor-pointer text-[18px] font-[600]`}
+          className={`${styles.button} !bg-[#462088] text-white h-[45px] rounded-[5px] cursor-pointer text-[18px] font-[600]`}
           onClick={handleKhaltiPayment}
         >
           Pay with Khalti
         </div>
-      </div>
-      <div
-          className={`${styles.button} !bg-[#f63b60] text-white h-[45px] rounded-[5px] cursor-pointer text-[18px] font-[600]`}
+        <div className="ml-5">
+        <div
+          className={`${styles.button} !bg-[#020401] text-white h-[45px] rounded-[5px] cursor-pointer text-[18px] font-[600]`}
           onClick={cashonDelivery}
         >
           Cash on delivery
         </div>
+        </div>
+
+      </div>
+
     </div>
   );
 };

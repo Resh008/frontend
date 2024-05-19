@@ -63,8 +63,9 @@ const PaymentSuccessPage = () => {
       localStorage.setItem("latestOrder", JSON.stringify({})); 
       localStorage.setItem("orderData", JSON.stringify({})); 
       navigate("/");
-      toast.success("Order successful!");
       window.location.reload();
+      toast.success("Order successful!");
+  
         }
         
           

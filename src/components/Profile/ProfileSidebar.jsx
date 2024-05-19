@@ -98,11 +98,11 @@ const ProfileSidebar = ({ setActive, active }) => {
             <div
               className="flex items-center cursor-pointer w-full mb-8"
               onClick={() => {
-                setActive(5);
+                setActive(6);
               }}
             >
-              <MdOutlineAdminPanelSettings size={20} color={active === 5 ? "red" : ""} />
-              <span className={`pl-3 ${active === 5 ? " !text-[red]" : "" } 800px:block hidden`}>
+              <MdOutlineAdminPanelSettings size={20} color={active === 6 ? "red" : ""} />
+              <span className={`pl-3 ${active === 6 ? " !text-[red]" : "" } 800px:block hidden`}>
                 Admin Panel
               </span>
             </div>

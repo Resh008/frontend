@@ -2,10 +2,13 @@ import React, { useEffect } from 'react'
 import styles from '../../styles/style'
 import EventCard from "./EventCard"
 import { useSelector } from 'react-redux'
+import { RxCodesandboxLogo } from 'react-icons/rx'
 
 const Events = () => {
 
   const {allEvents,isLoading} = useSelector((state)=>state.event)
+
+console.log(allEvents)
   
   return (
     <div>

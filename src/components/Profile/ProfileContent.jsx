@@ -128,7 +128,7 @@ const ProfileContent = ({ active }) => {
                     onChange={(e) => setPhoneNumber(e.target.value)} />
                 </div>
                 <div className="w-[50%]">
-                  <label className="block pb-2">Enter your password Number</label>
+                  <label className="block pb-2">Enter your password</label>
                   <input type="password" className={`${styles.input} !w-[95%]`}
                     required
                     value={password}

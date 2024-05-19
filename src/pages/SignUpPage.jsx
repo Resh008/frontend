@@ -9,7 +9,7 @@ const SignUpPage = () => {
   const { isAuthenticated } = useSelector((state) => state.user);
 
     useEffect(() => {
-      if(isAuthenticated === true){
+      if(isAuthenticated){
         navigate("/")
       }
     

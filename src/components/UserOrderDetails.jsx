@@ -10,6 +10,7 @@ import { VscFeedback } from 'react-icons/vsc';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { Button } from '@mui/material';
 
 const UserOrderDetails = () => {
     const { orders, isLoading } = useSelector((state) => state.order);
@@ -20,8 +21,10 @@ const UserOrderDetails = () => {
     const [open, setOpen] = useState(false)
     const [selectedItem, setSelectedItem] = useState(null)
     const [rating, setRating] = useState(1);
-    const[comment,setComment] = useState("")
+    const [comment, setComment] = useState("")
     const navigate = useNavigate();
+    const [deleteOpen, setDeleteOpen] = useState(false)
+    const [warningOpen, setWarningOpen] = useState(false)
 
 
 
@@ -38,28 +41,39 @@ const UserOrderDetails = () => {
     }
 
     const reviewHandler = async (e) => {
-        if(comment === ""){
+        if (comment === "") {
             toast.error("Write something in comment")
         } else {
-            await axios.put(`${server}/products/create-review`,{
+            await axios.put(`${server}/products/create-review`, {
                 user,
                 rating,
                 comment,
-                productId:selectedItem?._id,
-                orderId:id,
-            },{withCredentials:true})
-            .then((res)=>
-            {
-                toast.success("Review Added")
-                setComment("")
-                setRating(1)
-                setOpen(false)
-                navigate('/profile')
-            })
+                productId: selectedItem?._id,
+                orderId: id,
+            }, { withCredentials: true })
+                .then((res) => {
+                    toast.success("Review Added")
+                    setComment("")
+                    setRating(1)
+                    // setOpen(false)
+                    // navigate('/profile')
+                })
         }
-        }
+    }
 
     console.log(data)
+
+    const handleCancelOrder = async (data) => {
+        const orderId = data._id
+        await axios.delete(`${server}/order/cancel-order/${orderId}`, {
+            withCredentials: true,
+        });
+        navigate("/")
+        window.location.reload()
+        navigate("/profile")
+        toast.success("Your order has been canceled")
+
+    }
 
     return (
         <div className="py-14 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
@@ -70,7 +84,7 @@ const UserOrderDetails = () => {
                 </div>
             </div>
 
-            {data && data?.cart.map((item, index) => {
+            {/* {data && data?.cart.map((item, index) => {
           return(
             <div className="w-full flex items-start">
             {item.isReviewed ? null : (
@@ -79,7 +93,28 @@ const UserOrderDetails = () => {
             }
           </div>
           )
-         })}
+         })} */}
+
+
+         
+
+            {
+                data && data.status === "Delivered" && (
+                    <>
+                        {data && data?.cart.map((item, index) => {
+                            return (
+                                <div className="w-full flex items-start">
+                                    {item.isReviewed ? null : (
+                                        <div className={`${styles.button} flex justify-end items-end bg-blue-500 text-white border-[2px] !rounded-[10px]`} onClick={() => setOpen(true) || setSelectedItem(item)}> <VscFeedback size={18} /><div className="pl-1">Write a review</div></div>
+                                    )
+                                    }
+                                </div>
+                            )
+                        })}
+                    </>
+                )
+            }
+
 
 
             {
@@ -95,7 +130,7 @@ const UserOrderDetails = () => {
                                     <div class="flex flex-col items-center py-6 space-y-3">
                                         <span class="text-lg text-gray-800">Give product a rating out 5</span>
                                         <div class="flex space-x-3">
-                                            {[1, 2, 3, 4, 5].map((i) => 
+                                            {[1, 2, 3, 4, 5].map((i) =>
                                                 rating >= i ? (
                                                     <AiFillStar key={i} className='mr-1 cursor-pointer' color='rgb(246,186,0)' size={25} onClick={() => setRating(i)} />
                                                 ) : (
@@ -106,8 +141,8 @@ const UserOrderDetails = () => {
                                         </div>
                                     </div>
                                     <div class="w-3/4 flex flex-col">
-                                        <textarea required rows="3" class="p-4 text-gray-500 rounded-xl resize-none bg-gray-200" placeholder='Write review...' value={comment} onChange={(e)=>setComment(e.target.value)}></textarea>
-                                        <button class="py-3 my-8 text-lg bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl text-white"  onClick={reviewHandler}>Rate now</button>
+                                        <textarea required rows="3" class="p-4 text-gray-500 rounded-xl resize-none bg-gray-200" placeholder='Write review...' value={comment} onChange={(e) => setComment(e.target.value)}></textarea>
+                                        <button class="py-3 my-8 text-lg bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl text-white" onClick={reviewHandler}>Rate now</button>
                                     </div>
                                 </div>
                                 <div class="h-20 flex items-center justify-center cursor-pointer" onClick={() => setOpen(false)}>
@@ -119,8 +154,8 @@ const UserOrderDetails = () => {
 
                 )
             }
-            <Link to='/profile' onClick={window.location.reload}>
-                <span className={`${styles.button} flex justify-end items-end bg-transparent text-[#292929] border-[2px]`}>Go back</span>
+            <Link to='/profile'>
+                <span className={`${styles.button} flex justify-end items-end bg-transparent text-[#292929] border-[2px]`} onClick={() => navigate('/')}>Go back</span>
             </Link>
             <div className="mt-10 flex flex-col xl:flex-row jusitfy-center items-stretch  w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
 
@@ -171,6 +206,158 @@ const UserOrderDetails = () => {
                                 <p className="text-base font-semibold leading-4 text-gray-800">Total</p>
                                 <p className="text-base font-semibold leading-4 text-gray-600">Rs.{data.totalPrice}</p>
                             </div>
+                            {
+                                data && (data.status === "Processing") ? (
+                                    <div className='flex justify-end cursor-pointer' onClick={() => setDeleteOpen(true)}>
+                                    <Button>Cancel Order</Button>
+                                </div>
+                                ) : (
+                                    <div className='text-red-600'>Order cannot be Canceled after being processed. </div>
+                                )
+                            }
+
+
+                            {
+                                deleteOpen && (
+                                    <div class="fixed inset-0 z-40 min-h-full overflow-y-auto overflow-x-hidden transition flex items-center">
+                                        <div aria-hidden="true" class="fixed inset-0 w-full h-full bg-black/50 cursor-pointer">
+                                        </div>
+
+                                        <div class="relative w-full cursor-pointer pointer-events-none transition my-auto p-4">
+                                            <div
+                                                class="w-full py-2 bg-white cursor-default pointer-events-auto relative rounded-xl mx-auto max-w-sm">
+
+                                                <button tabindex="-1" type="button" class="absolute top-2 right-2 rtl:right-auto rtl:left-2">
+                                                    <svg title="Close" tabindex="-1" class="h-4 w-4 cursor-pointer text-black"
+                                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                        <path fill-rule="evenodd"
+                                                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                            clip-rule="evenodd"></path>
+                                                    </svg>
+                                                    <span class="sr-only">
+                                                        Close
+                                                    </span>
+                                                </button>
+
+
+
+                                                <div class="space-y-2 p-2">
+                                                    <div class="p-4 space-y-2 text-center">
+                                                        <h2 class="text-xl font-bold tracking-tight" id="page-action.heading">
+                                                            Confirm Cancel Order?
+                                                        </h2>
+
+                                                        <p class="text-gray-500">
+                                                            Are you sure you would like to do this?
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="space-y-2">
+                                                    <div aria-hidden="true" class="border-t dark:border-gray-700 px-2"></div>
+
+                                                    <div class="px-6 py-2">
+                                                        <div class="grid gap-2 grid-cols-[repeat(auto-fit,minmax(0,1fr))]">
+                                                            <button type="button" onClick={() => setDeleteOpen(false)}
+                                                                class="inline-flex items-center justify-center py-1 gap-1 font-medium rounded-lg border transition-colors outline-none focus:ring-offset-2 focus:ring-2 focus:ring-inset dark:focus:ring-offset-0 min-h-[2.25rem] px-4 text-sm text-gray-800 bg-white border-gray-300 hover:bg-gray-50 focus:ring-primary-600 focus:text-primary-600 focus:bg-primary-50 focus:border-primary-600 dark:bg-gray-800 dark:hover:bg-gray-700 dark:border-gray-600 dark:hover:border-gray-500 dark:text-gray-200 dark:focus:text-primary-400 dark:focus:border-primary-400 dark:focus:bg-gray-800">
+                                                                <span class="flex items-center gap-1">
+                                                                    <span class="">
+                                                                        Cancel
+                                                                    </span>
+                                                                </span>
+                                                            </button>
+
+                                                            <button onClick={() => setOpen(false) || handleCancelOrder(data)}
+                                                                class="inline-flex items-center justify-center py-1 gap-1 font-medium rounded-lg border transition-colors outline-none focus:ring-offset-2 focus:ring-2 focus:ring-inset dark:focus:ring-offset-0 min-h-[2.25rem] px-4 text-sm text-white shadow focus:ring-white border-transparent bg-red-600 hover:bg-red-500 focus:bg-red-700 focus:ring-offset-red-700">
+
+                                                                <span class="flex items-center gap-1">
+                                                                    <span class="">
+                                                                        Confirm
+                                                                    </span>
+                                                                </span>
+
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            }
+
+                            {
+                                deleteOpen && (
+                                    <div class="fixed inset-0 z-40 min-h-full overflow-y-auto overflow-x-hidden transition flex items-center">
+                                        <div aria-hidden="true" class="fixed inset-0 w-full h-full bg-black/50 cursor-pointer">
+                                        </div>
+
+                                        <div class="relative w-full cursor-pointer pointer-events-none transition my-auto p-4">
+                                            <div
+                                                class="w-full py-2 bg-white cursor-default pointer-events-auto relative rounded-xl mx-auto max-w-sm">
+
+                                                <button tabindex="-1" type="button" class="absolute top-2 right-2 rtl:right-auto rtl:left-2">
+                                                    <svg title="Close" tabindex="-1" class="h-4 w-4 cursor-pointer text-black"
+                                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                        <path fill-rule="evenodd"
+                                                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                            clip-rule="evenodd"></path>
+                                                    </svg>
+                                                    <span class="sr-only">
+                                                        Close
+                                                    </span>
+                                                </button>
+
+
+
+                                                <div class="space-y-2 p-2">
+                                                    <div class="p-4 space-y-2 text-center">
+                                                        <h2 class="text-xl font-bold tracking-tight" id="page-action.heading">
+                                                            Confirm Cancel Order?
+                                                        </h2>
+
+                                                        <p class="text-gray-500">
+                                                            Are you sure you would like to do this?
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="space-y-2">
+                                                    <div aria-hidden="true" class="border-t dark:border-gray-700 px-2"></div>
+
+                                                    <div class="px-6 py-2">
+                                                        <div class="grid gap-2 grid-cols-[repeat(auto-fit,minmax(0,1fr))]">
+                                                            <button type="button" onClick={() => setDeleteOpen(false)}
+                                                                class="inline-flex items-center justify-center py-1 gap-1 font-medium rounded-lg border transition-colors outline-none focus:ring-offset-2 focus:ring-2 focus:ring-inset dark:focus:ring-offset-0 min-h-[2.25rem] px-4 text-sm text-gray-800 bg-white border-gray-300 hover:bg-gray-50 focus:ring-primary-600 focus:text-primary-600 focus:bg-primary-50 focus:border-primary-600 dark:bg-gray-800 dark:hover:bg-gray-700 dark:border-gray-600 dark:hover:border-gray-500 dark:text-gray-200 dark:focus:text-primary-400 dark:focus:border-primary-400 dark:focus:bg-gray-800">
+                                                                <span class="flex items-center gap-1">
+                                                                    <span class="">
+                                                                        Cancel
+                                                                    </span>
+                                                                </span>
+                                                            </button>
+
+                                                            <button onClick={() => setOpen(false) || handleCancelOrder(data)}
+                                                                class="inline-flex items-center justify-center py-1 gap-1 font-medium rounded-lg border transition-colors outline-none focus:ring-offset-2 focus:ring-2 focus:ring-inset dark:focus:ring-offset-0 min-h-[2.25rem] px-4 text-sm text-white shadow focus:ring-white border-transparent bg-red-600 hover:bg-red-500 focus:bg-red-700 focus:ring-offset-red-700">
+
+                                                                <span class="flex items-center gap-1">
+                                                                    <span class="">
+                                                                        Confirm
+                                                                    </span>
+                                                                </span>
+
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            }
                         </div>
                     </div>
                 </div>

@@ -21,6 +21,7 @@ const ProductsPage = () => {
       const d =
       allProducts && allProducts.filter((i) => i.category === categoryData);
       setData(d);
+      console.log(categoryData)
     }
     //    window.scrollTo(0,0);
   }, [allProducts]);

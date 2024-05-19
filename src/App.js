@@ -91,9 +91,9 @@ const App = () => {
           </ProtectedRoute>
         } />
         <Route path="/payment-success" element={
-        <ProtectedRoute>
+        // <ProtectedRoute>
           <PaymentSuccessPage />
-          </ProtectedRoute>
+          
         } />
 
 <Route path="/user/order/:id" element={

@@ -26,6 +26,7 @@ const ProductDetails = ({ data }) => {
   const {seller} = useSelector((state) =>state.seller);
 
 
+
   useEffect(() => {
     dispatch(getAllProductsShop(data && data?.shop._id));
     if (wishList && wishList.find((i) => i._id === data._id)) {
@@ -78,6 +79,15 @@ const ProductDetails = ({ data }) => {
   console.log(data)
 
   const totalReviewsLength = products && products.reduce((acc, product) => acc + product.reviews.length, 0);
+    
+    const totalRatings = products && products.reduce((acc, product) => acc + product.reviews.reduce((sum, review) => sum + review.rating, 0), 0);
+
+
+    const averageRating = parseInt(totalRatings / totalReviewsLength || 0);
+
+    console.log(totalReviewsLength)
+    console.log(totalRatings)
+    console.log(averageRating)
 
   return (
     <div className="bg-white">
@@ -273,11 +283,11 @@ const ProductDetailsInfo = ({ data, products, totalReviewsLength }) => {
             {data && data.reviews && data.reviews.map((item, index) => {
               return (
                 <div className="w-full flex my-2" key={index}>
-                  <img src={`${backend_url}${item.user.avatar.url}`} alt=""
+                  <img src={`${backend_url}${item.user?.avatar?.url}`} alt=""
                     className='w-[50px] h-[50px] rounded-full' />
                   <div className="pl-5'">
                     <div className="w-full flex items-center">
-                      <h1 className='pr-2'><strong>{item.user.name}</strong></h1>
+                      <h1 className='pr-2'><strong>{item.user?.name}</strong></h1>
                       <Ratings rating={data.rating} />
                     </div>
                     <p>
@@ -292,8 +302,8 @@ const ProductDetailsInfo = ({ data, products, totalReviewsLength }) => {
 
 
             {
-              data && data.reviews.length === 0 && (
-                <h5>No Reviews Yet</h5>
+              data && data.reviews?.length === 0 || !data.reviews  && (
+                <h5 className='pt-5'>No Reviews Yet</h5>
               )
             }
           </div>
@@ -307,7 +317,7 @@ const ProductDetailsInfo = ({ data, products, totalReviewsLength }) => {
               <Link to={`/shop/preview/${data.shop._id}`}>
                 <div className="flex items-center">
                   <img
-                    src={`${backend_url}${data?.shop?.avatar.url}`}
+                    src={`${backend_url}${data?.shop?.avatar?.url}`}
                     alt=""
                     className='!w-[60px] !h-[60px] rounded-full' />
 

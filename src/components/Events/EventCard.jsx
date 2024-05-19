@@ -31,10 +31,12 @@ const EventCard = ({active,data}) => {
     console.log(data)
   return (
     <div className={`w-full block bg-white rounded-lg ${active ? "unset" : "mb-12"} lg:flex p-2`}>
-        <div className='w-full lg:-w[50%] m-auto'>
-            <img src={`${backend_url}${data.images && data.images[0]}`} alt="" />
-        </div>
-        <div className="w-full lg:[w-50%] flex flex-col justify-center">
+        <img
+            src={data.images && `${backend_url}${data.images[0]}`}
+            alt=""
+            className="w-full h-[170px] object-contain"
+          />
+        <div className="w-full lg:[w-50%] flex flex-col justify-center pl-8">
             <h2 className={`${styles.productTitle}`}> {data.name}</h2>
             <p>
                 {data.description}
@@ -48,8 +50,8 @@ const EventCard = ({active,data}) => {
                         Rs.{data.discountPrice}
                     </h5>
                 </div>
-                <span className='pr-3 font-[400] text-[17px] text-[#44a55e]'>
-                    <b>120</b> sold
+                <span className='pr-5 font-[400] text-[17px] text-[#44a55e]'>
+                    <b>{data.sold_out}</b> sold
                 </span>
             </div>
             <CountDown data={data}/>
