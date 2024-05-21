@@ -135,7 +135,7 @@ const handleKhaltiPayment = async () => {
   };
   try {
     const { data } = await axios.post(
-      'http://a.khalti.com/api/v2/epayment/initiate/',
+      'https://a.khalti.com/api/v2/epayment/initiate/',
       payload,
       {
         headers: {

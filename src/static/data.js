@@ -26,8 +26,8 @@ export const navItems = [
   export const brandingData = [
     {
       id: 1,
-      title: "Free Shipping",
-      Description: "From all orders over 100$",
+      title: "Easy Shipping",
+      Description: "Shipping everywhere in Nepal",
       icon: (
         <svg
           width="36"
@@ -77,7 +77,7 @@ export const navItems = [
     {
       id: 2,
       title: "Daily Surprise Offers",
-      Description: "Save up to 25% off",
+      Description: "Save up to 10% off",
       icon: (
         <svg
           width="32"
@@ -208,7 +208,7 @@ export const navItems = [
       title: "Accesories",
       subTitle: "",
       image_Url:
-        "https://img.freepik.com/free-vector/ordering-goods-online-internet-store-online-shopping-niche-e-commerce-website-mother-buying-babies-clothes-footwear-toys-infant-accessories_335657-2345.jpg?w=2000",
+        "https://cdn-icons-png.flaticon.com/512/7695/7695930.png",
     },
     {
       id: 4,

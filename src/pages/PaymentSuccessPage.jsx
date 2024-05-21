@@ -40,11 +40,11 @@ const PaymentSuccessPage = () => {
 
   const order = {
     cart: orderData?.cart,
-    shippingAdress: orderData?.shippingAddress,
+    shippingAdress:orderData?.shippingAddress,
     user: orderData?.user,
     totalPrice: orderData?.totalPrice,
-    paymentInfo: "Paid via Khalti",
-    paymentData: transactionData,
+    paymentInfo:"Paid via Khalti",
+    paymentData:transactionData,
   }
 
   console.log(order.paymentData)
@@ -54,18 +54,19 @@ const PaymentSuccessPage = () => {
 
   const handleCheckout = async () => {
     try {
-      if (transactionData.status === "Completed") {
-        const response = await axios.post(`${server}/order/create-order`, order);
-        console.log("Order created successfully:", response.data);
+    if(transactionData.status === "Completed"){
+    const response = await axios.post(`${server}/order/create-order`, order);
+    console.log("Order created successfully:", response.data);
 
-        // Clear local storage and redirect to success page
-        localStorage.setItem("latestOrder", JSON.stringify({}));
-        navigate("/");
-        window.location.reload();
-        toast.success("Order successful!");
+      // Clear local storage and redirect to success page
+      localStorage.setItem("cartItems", JSON.stringify([]));
+      localStorage.setItem("latestOrder", JSON.stringify({})); 
+      localStorage.setItem("orderData", JSON.stringify({})); 
+      navigate("/");
+      window.location.reload();
+      toast.success("Order successful!");
 
-      }
-
+        }
 
     } catch (error) {
 
@@ -75,7 +76,7 @@ const PaymentSuccessPage = () => {
   useEffect(() => {
     if (transactionData.status === "Completed") {
       handleCheckout()
-      window.location.realod()
+      // window.location.realod()
 
     } else {
       console.log("Error")

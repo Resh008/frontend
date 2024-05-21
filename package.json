@@ -55,7 +55,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "https://a.khalti.com",
   "eslintConfig": {
     "extends": [
       "react-app",
