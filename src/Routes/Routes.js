@@ -16,6 +16,7 @@ import PaymentPage from "../pages/PaymentPage"
 import PaymentSuccessPage from "../pages/PaymentSuccessPage"
 import OrderDetailsPage from "../pages/OrderDetailsPage"
 import TrackOrderPage from "../pages/TrackOrderPage"
+import ForgotPasswordPage from "../pages/ForgotPasswordPage.jsx"
 
 
 export{
@@ -37,4 +38,5 @@ export{
     PaymentSuccessPage,
     OrderDetailsPage,
     TrackOrderPage,
+    ForgotPasswordPage,
 };

@@ -30,13 +30,7 @@ const ActivationPage = () => {
             justifyContent: "center",
             alignItems: "center",
         }}>
-            {
-                error ? (
-                    <p>Your token has expired!</p>
-                ) : (
-                    <p>Your account has been created</p>
-                )
-            }
+                <p>Your account has been created</p>
         </div>
     );
 }

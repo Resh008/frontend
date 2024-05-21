@@ -20,6 +20,7 @@ import {
   PaymentSuccessPage,
   OrderDetailsPage,
   TrackOrderPage,
+  ForgotPasswordPage,
 } from "./Routes/Routes.js";
 import {
   ShopDashboardPage,
@@ -69,7 +70,12 @@ const App = () => {
           path="/activation/:activation_token"
           element={<ActivationPage />}
         />
+                <Route
+          path="/forgot-password"
+          element={<ForgotPasswordPage />}
+        />
         <Route
+        
           path="/seller/activation/:activation_token"
           element={<SellerActivationPage />}
         />

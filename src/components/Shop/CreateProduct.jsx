@@ -49,9 +49,14 @@ const CreateProduct = () => {
     newForm.append("discountPrice", discountPrice);
     newForm.append("stock", stock);
     newForm.append("shopId", seller._id);
-    dispatch(
-      createProduct(newForm)
-    );
+    if(discountPrice < 1 ||originalPrice < 1 || stock < 1){
+      toast.error("Price/Stock cannot be less than 1")
+    } else {
+      dispatch(
+        createProduct(newForm)
+      );
+    }
+
   };
   
   const handleImageChange = (e) => {

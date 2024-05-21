@@ -8,7 +8,7 @@ import { MdAddAPhoto, MdOutlineTrackChanges } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { DataGrid } from '@mui/x-data-grid';
 import Button from '@mui/material/Button'
-import { TiDeleteOutline } from "react-icons/ti";
+import { TiDeleteOutline, TiSocialSkype } from "react-icons/ti";
 import PopupPassword from "./popupPassword"; // Import the PasswordChangePopup component
 import { deleteUserAddress, loadUser, updatUserAddress, updateUserAdress, updateUserInformation } from "../../redux/actions/user";
 import { toast } from "react-toastify";
@@ -47,9 +47,16 @@ const ProfileContent = ({ active }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updateUserInformation(name, email, phoneNumber, password))
-    if (!error) {
-      toast.success("Details updated")
+    if(phoneNumber.length < 10 || phoneNumber.length > 10){
+      toast.error("Phone number cannot be less/more than 10 digits")
+    } else if(error){
+      toast.error(error.message)
+    }
+    else {
+      dispatch(updateUserInformation(name, email, phoneNumber, password))
+      if(!error){
+        toast.success("Details Updated!")
+      }
     }
   };
 
