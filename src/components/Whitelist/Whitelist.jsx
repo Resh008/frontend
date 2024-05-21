@@ -41,7 +41,7 @@ const Whitelist = ({ setopenWitelist }) => {
                   onClick={() => setopenWitelist(false)}
                 />
               </div>
-              <img className=" flex w-[200px] h-[200px]" src="https://media.discordapp.net/attachments/749319878003130380/1228041970425790565/panaproduct.png?ex=662a9a35&is=66182535&hm=441698b6b51b8ecbcbadbd5d92c6b3f9202d63c99b17d2a1395242dbca197ef3&=&format=webp&quality=lossless&width=511&height=481" alt="" />
+              <img className=" flex w-full h-[195px]" src="https://img.freepik.com/premium-vector/empty-cart_701961-7086.jpg" alt="" />
               <br />
               <h5 className="fixed top-20">Oops, Your wish list is empty</h5>
             </div>

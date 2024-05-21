@@ -174,9 +174,10 @@ const cashonDelivery = async () => {
     // Clear local storage and redirect to success page
     localStorage.setItem("cartItems", JSON.stringify([]));
     localStorage.setItem("latestOrder", JSON.stringify({})); 
+    toast.success("Order successful!");
     navigate("/");
     window.location.reload();
-    toast.success("Order successful!");
+    
       }
       
         

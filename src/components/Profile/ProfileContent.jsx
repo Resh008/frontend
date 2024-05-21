@@ -461,7 +461,8 @@ const Address = () => {
   const [addressType, setAddressType] = useState("")
   const [country, setCountry] = useState("");
   const { user } = useSelector((state) => state.user);
-
+  const [active,setActive] = useState(1)
+  
   const addressTypeData = [
     {
       name: "Default",
@@ -488,7 +489,8 @@ const Address = () => {
       setCity("")
       setAddressType("")
       setOpen(false)
-      window.location.reload();
+      window.location.reload()
+      setActive(5)
       toast.success("User data added sucessfully")
 
     }

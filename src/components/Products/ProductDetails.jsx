@@ -61,20 +61,29 @@ const ProductDetails = ({ data }) => {
   }
 
   const addToCartHandler = (id) => {
-    const isItemExists = cart && cart.find((i) => i._id === id);
-    if (isItemExists) {
-      toast.error("Item exist in your cart")
+    
+    if (user) {
+        if (cart) {
+            const isItemExists = cart.find((i) => i._id === id);
+            if (isItemExists) {
+                toast.error("Item already exists in your cart");
+            } else {
+                if (data && data.stock < 1) {
+                    toast.error("Oops, no more in stock");
+                } else {
+                    const cartData = { ...data, qty: 1 };
+                    dispatch(addToCart(cartData));
+                    toast.success("Item added to cart");
+                }
+            }
+        } else {
+            toast.error("Cart not found");
+        }
     } else {
-      if (data.stock < 1) {
-        toast.error("Oops, no more in stock");
-      } else {
-        const cartData = { ...data, qty: count };
-        dispatch(addToCart(cartData));
-        toast.success("Item added to cart")
-      }
+        toast.error("Login first");
+        navigate('/login');
     }
-
-  }
+};
 
   console.log(data)
 
@@ -97,7 +106,7 @@ const ProductDetails = ({ data }) => {
             <div className="block w-full 800px:flex">
               <div className="w-full 800px:w-[50%]">
                 {/* <img
-                  src={`${backend_url}${data && data.images[select]}`}
+                  src={`${data && data.images[select]}`}
                   alt=""
                   className="w-[80%]"
                 /> */}

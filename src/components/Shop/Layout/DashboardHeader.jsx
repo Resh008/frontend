@@ -14,7 +14,7 @@ const DashboardHeader = () => {
     <div>
         <div className="w-full h-[80px] bg-white shadow sticky top-0 left-0 z-30 flex items-center justify-between px-4">
             <div>
-                <Link to = "/dashbord-orders">
+                <Link to = "/dashboard-orders">
                 <img src={`${backend_url}almadi.png`} alt=""  className='w-full h-[50px]'/>
                 </Link>
             </div>

@@ -72,7 +72,7 @@ const Faq = () => {
           {activeTab === 2 && (
             <div className="mt-4">
               <p className="text-base text-gray-500">
-                If you're not satisfied with your purchase, we accept returns
+                If you're not satisfied with your purchase, some shop accepts returns
                 within 30 days of delivery. To initiate a return, please email
                 us at reshambhattarai05@gmail.com with your order number and a
                 brief explanation of why you're returning the item.

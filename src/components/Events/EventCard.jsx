@@ -3,7 +3,7 @@ import styles from '../../styles/style'
 import CountDown from "./CountDown"
 import { backend_url } from '../../server'
 import AllEvents from '../Shop/AllEvents'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { addToCart } from '../../redux/actions/cart'
 import { toast } from 'react-toastify'
@@ -12,22 +12,32 @@ const EventCard = ({active,data}) => {
 
     const {cart} =  useSelector((state)=>state.cart)
     const dispatch = useDispatch();
-
-    const addToCartHandler = (data) => {
-        const isItemExists = cart && cart.find((i) => i._id === data._id);
-        if(isItemExists){
-          toast.error("Item exist in your cart")
-        } else {
-            if(data.stock <= 1){
-              toast.error("Oops, no more in stock");
-            } else {
-              const cartData = {...data, qty: 1};
-              dispatch(addToCart(cartData));
-              toast.success("Item added to cart")
-            }
-        }
+    const navigate =  useNavigate()
+    const {user}=useSelector((state)=>state.user)
+    const addToCartHandler = (id) => {
     
-      }
+        if (user) {
+            if (cart) {
+                const isItemExists = cart.find((i) => i._id === id);
+                if (isItemExists) {
+                    toast.error("Item already exists in your cart");
+                } else {
+                    if (data && data.stock < 1) {
+                        toast.error("Oops, no more in stock");
+                    } else {
+                        const cartData = { ...data, qty: 1 };
+                        dispatch(addToCart(cartData));
+                        toast.success("Item added to cart");
+                    }
+                }
+            } else {
+                toast.error("Cart not found");
+            }
+        } else {
+            toast.error("Login first");
+            navigate('/login');
+        }
+    };
     console.log(data)
   return (
     <div className={`w-full block bg-white rounded-lg ${active ? "unset" : "mb-12"} lg:flex p-2`}>

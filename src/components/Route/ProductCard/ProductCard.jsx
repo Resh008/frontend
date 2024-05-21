@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import styles from '../../../styles/style';
 import { AiFillHeart, AiFillStar, AiOutlineEye, AiOutlineHeart, AiOutlineShoppingCart, AiOutlineStar } from 'react-icons/ai';
 import ProductDetailsCard from "../ProductDetailsCard/ProductDetailsCard"
@@ -16,6 +16,8 @@ const ProductCard = ({ data, isReview }) => {
     const [click, setClick] = useState(false);
     const [open, setOpen] = useState(false);
     const dispatch = useDispatch();
+    const {user} = useSelector((state)=>state.user)
+    const navigate = useNavigate();
 
     // const d = data.name;
     // const product_name = d.replace(/\s+/g, "-");
@@ -35,25 +37,39 @@ const ProductCard = ({ data, isReview }) => {
     }
     
     const addToWishListHandler = (data) => {
-        setClick(!click);
-        dispatch(addToWishList(data));
+        if(user){
+            setClick(!click);
+            dispatch(addToWishList(data));
+        } else {
+            toast.error("Login first")
+            navigate('/login')
+        }
     }
 
     const addToCartHandler = (id) => {
-        const isItemExists = cart && cart.find((i) => i._id === id);
-        if(isItemExists){
-          toast.error("Item exist in your cart")
-        } else {
-            if(data.stock <= 1){
-              toast.error("Oops, no more in stock");
-            } else {
-              const cartData = {...data, qty: 1};
-              dispatch(addToCart(cartData));
-              toast.success("Item added to cart")
-            }
-        }
     
-      }
+        if (user) {
+            if (cart) {
+                const isItemExists = cart.find((i) => i._id === id);
+                if (isItemExists) {
+                    toast.error("Item already exists in your cart");
+                } else {
+                    if (data && data.stock < 1) {
+                        toast.error("Oops, no more in stock");
+                    } else {
+                        const cartData = { ...data, qty: 1 };
+                        dispatch(addToCart(cartData));
+                        toast.success("Item added to cart");
+                    }
+                }
+            } else {
+                toast.error("Cart not found");
+            }
+        } else {
+            toast.error("Login first");
+            navigate('/login');
+        }
+    };
 
     return (
         <><div className='w-full h-[370px] bg-white rounded-lg shadow-sm p-3 relative cursor-pointer'>

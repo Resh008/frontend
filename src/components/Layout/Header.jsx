@@ -38,11 +38,13 @@ const Header = ({ activeHeading }) => {
     const term = e.target.value;
     setSearchTerm(term);
 
-    const filteredProducts = allProducts && allProducts.filter((product) =>
-      product.name.toLowerCase().includes(term.toLowerCase())
-    );
+    const filteredProducts =
+      allProducts &&
+      allProducts.filter((product) =>
+        product._id
+      );
     setSearchData(filteredProducts);
-  }
+  };
 
   window.addEventListener("scroll", () => {
     if (window.scrollY > 70) {
@@ -50,8 +52,7 @@ const Header = ({ activeHeading }) => {
     } else {
       setActive(false);
     }
-  })
-
+  });
   return (
     <>
       <div className={`${styles.section}` }>
@@ -66,25 +67,22 @@ const Header = ({ activeHeading }) => {
           <div className="w-[50%] relative">
             <input type='text' placeholder='Search product...' value={searchTerm} onChange={handleSearchChange} className='h-[40px] w-full px-2 border-[#3957db] border-[2px] rounded-md'/>
             <AiOutlineSearch size={30} className='absolute right-2 top-1.5 cursor-pointer' />
-            {
-              searchData && searchData.length !== 0 ? (
-                <div className='absolute min-h-[30vh] bg-slate-50 shadow-sw-2 z-[9] p-4'>
-                  {searchData && searchData.map((i, index) => {
-
+            {searchData && searchData.length !== 0 ? (
+              <div className="absolute min-h-[30vh] bg-slate-50 shadow-sm-2 z-[9] p-4">
+                {searchData &&
+                  searchData.map((i, index) => {
                     return (
-                      // <Link to={`/products/${i.name.replace(/\s+/g, "-")}`} onClick={() => {
-                        <Link to={`/products/${i._id}`} onClick={() => {
-                        window.location.reload();
-                        window.location.href = `/products/${i.name.replace(/\s+/g, "-")}`;
-                      }}>
+                      <Link to={`/products/${i._id}`}>
                         <div className="w-full flex items-start-py-3">
-                          <img src={`${backend_url}${i.images[0]}`} alt=""
-                            className='w-[40px] h-[40]px mr-[10px]'
+                          <img
+                            src={`${backend_url}${i.images[0]}`}
+                            alt=""
+                            className="w-[40px] h-[40px] mr-[10px]"
                           />
                           <h1>{i.name}</h1>
                         </div>
                       </Link>
-                    )
+                    );
                   })}
                 </div>
               ) : null
